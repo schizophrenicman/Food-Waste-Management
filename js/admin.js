@@ -128,4 +128,29 @@ class AdminManager {
       };
     }
  }
+
+    //Toggle
+   async toggleUserVerification(userEmail) {
+    try {
+      const user = this.storage.getUserByEmail(userEmail);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const updatedUser = this.storage.updateUser(userEmail, { verified: !user.verified });
+      
+      return {
+        success: true,
+        message: `User ${updatedUser.verified ? 'verified' : 'unverified'} successfully`,
+        user: updatedUser
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
 }
