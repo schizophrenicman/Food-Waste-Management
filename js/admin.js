@@ -98,4 +98,16 @@ class AdminManager {
       claimRate: donations.length > 0 ? ((claimedDonations / donations.length) * 100).toFixed(1) : 0
     };
  }
+
+  //Delete user
+  async deleteUser(userEmail) {
+    try {
+      const users = this.storage.getUsers();
+      const userIndex = users.findIndex(user => user.email === userEmail);
+      
+      if (userIndex === -1) {
+        throw new Error('User not found');
+      }
+    }
+  }
 }
