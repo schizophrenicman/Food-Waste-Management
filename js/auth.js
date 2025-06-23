@@ -77,6 +77,33 @@ class AuthManager {
         verified: userData.type === 'donor',
         registeredAt: new Date().toISOString()
       };
+
+      this.storage.saveUser(user);
+
+      //verification request
+      if (userData.type === 'receiver' && userData.document) {
+        const verification = {
+          userEmail: userData.email,
+          userName: userData.name,
+          documentData: userData.document,
+          userType: 'receiver'
+        };
+        this.storage.savePendingVerification(verification);
+      }
+
+      return {
+        success: true,
+        message: userData.type === 'receiver' 
+          ? 'Registration successful! Your account is pending verification. You will be able to login once approved.'
+          : 'Registration successful! You can now login.',
+        user: user
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
     }
-}
+  }
 }
