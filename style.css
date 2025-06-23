@@ -59,6 +59,7 @@
 }
 
 .nav-menu {
+    font-family: 'Poppins',sans-serif;
   display: flex;
   list-style: none;
   gap: 2.5rem;
@@ -81,4 +82,11 @@
   left: 0;
   background-color: var(--secondary-color);
   transition: width 0.3s ease;
+}
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--secondary-color);
 }
