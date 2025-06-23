@@ -55,7 +55,6 @@ class AuthManager {
         throw new Error('Invalid email format');
       }
 
-      // Validate password
       const passwordValidation = this.validatePassword(userData.password);
       if (!passwordValidation.isValid) {
         throw new Error(passwordValidation.errors.join(', '));
@@ -66,6 +65,18 @@ class AuthManager {
       if (existingUser) {
         throw new Error('User with this email already exists');
       }
+
+      // Create user object
+      const user = {
+        id: Date.now().toString(),
+        name: userData.name,
+        email: userData.email,
+        password: userData.password, // Not hashed for simplicity
+        phone: userData.phone,
+        type: userData.type,
+        verified: userData.type === 'donor',
+        registeredAt: new Date().toISOString()
+      };
     }
 }
 }
