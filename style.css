@@ -111,3 +111,13 @@ main {
 .section {
   padding: 4rem 0;
 }
+.hero {
+  background: var(--background);
+  color: var(--text-primary);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: none;
+}
