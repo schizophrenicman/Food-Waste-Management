@@ -17,3 +17,7 @@
   --surface: #F5F5F5; 
   --border: #A5D6A7; 
 }
+.navbar{
+    background: var(--primary-color);
+    box-shadow: var()
+}
