@@ -159,7 +159,6 @@ class AdminManager {
         return verifications.find(v => v.id === verificationId);
   }
 
-    // Search users
     searchUsers(query) {
     const users = this.getAllUsers();
     if (!query) return users;
@@ -186,6 +185,5 @@ class AdminManager {
   }
 }
 
-// Export for use in other files
 window.AdminManager = AdminManager;
 
