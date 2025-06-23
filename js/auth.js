@@ -177,5 +177,12 @@ class AuthManager {
     this.currentAdmin = null;
   }
 
+  isUserLoggedIn() {
+    return this.currentUser !== null;
+  }
+
+  isAdminLoggedIn() {
+    return this.currentAdmin !== null;
+  }
 
 }
