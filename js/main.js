@@ -13,6 +13,41 @@ document.addEventListener('DOMContentLoaded',function(){
     const userInfo = document.getElementById('user-info');
     const userName = document.getElementById('user-name');
 
+    // Navigation 
+  const navLinks = document.querySelectorAll('.nav-link');
+  const hamburger = document.getElementById('hamburger');
+  const navMenu = document.getElementById('nav-menu');
+
+  // Initialize 
+  init();
+
+   function init() {
+    setupEventListeners();
+    updateNavigation();
+    updateImpactStats();
+    reviews.updateTopDonorDisplay();
+    reviews.initializeReviewForm();
+  }
+  function setupEventListeners(){
+     document.getElementById('register-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showRegisterModal();
+    });
+
+    document.getElementById('login-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showLoginModal();
+    });
+
+    document.getElementById('admin-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showAdminModal();
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', logout);
+  }
+
+
 
 
 
