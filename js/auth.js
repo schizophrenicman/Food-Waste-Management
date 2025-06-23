@@ -106,4 +106,20 @@ class AuthManager {
       };
     }
   }
+
+  // User login
+  async loginUser(email, password) {
+    try {
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      const user = this.storage.getUserByEmail(email);
+      if (!user) {
+        throw new Error('Invalid email or password');
+      }
+
+      if (user.password !== password) {
+        throw new Error('Invalid email or password');
+      }
 }
