@@ -72,4 +72,9 @@ class AdminManager {
       };
     });
   }
+
+  // Get all donations
+  getAllDonations() {
+    return this.storage.getDonations();
+  }
 }
