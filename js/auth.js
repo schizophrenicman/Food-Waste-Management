@@ -122,4 +122,25 @@ class AuthManager {
       if (user.password !== password) {
         throw new Error('Invalid email or password');
       }
+
+      // Check if receiver is verified
+      if (user.type === 'receiver' && !user.verified) {
+        throw new Error('Your account is pending verification. Please wait for admin approval.');
+      }
+
+      this.currentUser = user;
+      
+      return {
+        success: true,
+        message: 'Login successful',
+        user: user
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
 }
