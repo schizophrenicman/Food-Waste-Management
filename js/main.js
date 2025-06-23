@@ -231,5 +231,103 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       phone: document.getElementById('register-phone').value,
       type: document.getElementById('donor-type').classList.contains('active') ? 'donor' : 'receiver'
     };
+    // Handle document upload for receivers
+    if (userData.type === 'receiver') {
+      const fileInput = document.getElementById('verification-document');
+      if (fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          userData.document = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            data: e.target.result
+          };
+          await processRegistration(userData);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        showAlert('Please upload a verification document', 'error');
+        return;
+      }
+    } else {
+      await processRegistration(userData);
+    }
+  }
+
+  async function processRegistration(userData) {
+    const result = await auth.registerUser(userData);
+    
+    if (result.success) {
+      registerModal.style.display = 'none';
+      showAlert(result.message, 'success');
+      document.getElementById('register-form').reset();
+    } else {
+      showAlert(result.message, 'error');
+    }
+  }
+
+  async function handleAdminLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('admin-email').value;
+    const password = document.getElementById('admin-password').value;
+    
+    const result = await auth.loginAdmin(email, password);
+    
+    if (result.success) {
+      adminModal.style.display = 'none';
+      showAdminDashboard();
+      showAlert('Admin login successful!', 'success');
+    } else {
+      showAlert(result.message, 'error');
+    }
+  }
+
+  function logout() {
+    auth.logout();
+    updateNavigation();
+    userDashboard.style.display = 'none';
+    adminDashboard.style.display = 'none';
+    mainContent.style.display = 'block';
+    showAlert('Logged out successfully!', 'success');
+  }
+
+  function updateNavigation() {
+    const user = auth.getCurrentUser();
+    const admin = auth.getCurrentAdmin();
+    
+    if (user) {
+      userInfo.style.display = 'flex';
+      userName.textContent = user.name;
+      document.getElementById('register-link').style.display = 'none';
+      document.getElementById('login-link').style.display = 'none';
+    } else if (admin) {
+      userInfo.style.display = 'flex';
+      userName.textContent = `Admin: ${admin.name}`;
+      document.getElementById('register-link').style.display = 'none';
+      document.getElementById('login-link').style.display = 'none';
+    } else {
+      userInfo.style.display = 'none';
+      document.getElementById('register-link').style.display = 'block';
+      document.getElementById('login-link').style.display = 'block';
+    }
+  }
+
+  function showUserDashboard() {
+    if (!auth.isUserLoggedIn()) {
+      showLoginModal();
+      return;
+    }
+
+    const user = auth.getCurrentUser();
+    document.getElementById('dashboard-title').textContent = `${user.type === 'donor' ? 'Donor' : 'Receiver'} Dashboard`;
+    
+    const dashboardContent = document.getElementById('dashboard-content');
+    dashboardContent.innerHTML = dashboard.generateDashboardContent();
+    
+    mainContent.style.display = 'none';
+    userDashboard.style.display = 'block';
 };
 });
