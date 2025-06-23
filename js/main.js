@@ -83,6 +83,11 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       adminDashboard.style.display = 'none';
       mainContent.style.display = 'block';
     });
+    // Form submissions
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('register-form').addEventListener('submit', handleRegister);
+    document.getElementById('admin-form').addEventListener('submit', handleAdminLogin);
+
 
 
     
