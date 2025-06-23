@@ -342,6 +342,13 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         document.getElementById('add-donation-modal').style.display = 'block';
       });
     }
+    // Add donation modal close
+    const addDonationClose = document.getElementById('add-donation-close');
+    if (addDonationClose) {
+      addDonationClose.addEventListener('click', () => {
+        document.getElementById('add-donation-modal').style.display = 'none';
+      });
+    }
 
 };
 });
