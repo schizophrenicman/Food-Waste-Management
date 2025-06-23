@@ -73,6 +73,17 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     document.getElementById('admin-close').addEventListener('click', () => {
       adminModal.style.display = 'none';
     }); 
+    // Dashboard close buttons
+    document.getElementById('close-dashboard').addEventListener('click', () => {
+      userDashboard.style.display = 'none';
+      mainContent.style.display = 'block';
+    });
+
+    document.getElementById('close-admin-dashboard').addEventListener('click', () => {
+      adminDashboard.style.display = 'none';
+      mainContent.style.display = 'block';
+    });
+
 
     
   }
