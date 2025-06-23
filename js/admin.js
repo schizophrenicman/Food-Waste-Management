@@ -186,4 +186,3 @@ class AdminManager {
 }
 
 window.AdminManager = AdminManager;
-
