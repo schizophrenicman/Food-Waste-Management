@@ -143,4 +143,33 @@ class AuthManager {
       };
     }
   }
+
+  // Admin login
+  async loginAdmin(email, password) {
+    try {
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      const admin = this.storage.getAdmin();
+      if (!admin || admin.email !== email || admin.password !== password) {
+        throw new Error('Invalid admin credentials');
+      }
+
+      this.currentAdmin = admin;
+      
+      return {
+        success: true,
+        message: 'Admin login successful',
+        admin: admin
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
 }
