@@ -430,3 +430,35 @@ body {
   max-height: 80vh;
   color: #1b3d1a; 
 }
+.close {
+  color: #4a6b4a; /* darker green for better contrast */
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.close:hover {
+  color: var(--danger-color);
+}
+
+.form-group{
+  margin-bottom: 1.5rem;
+}
+.form-group label{
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #1f4a2e;
+}
+.form-group input, .form-group select, .form-group textarea{
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #a3c9a8;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
