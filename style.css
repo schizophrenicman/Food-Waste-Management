@@ -6,7 +6,7 @@
 :root {
     --primary-color: #2E7D32; 
     --primary-hover: #1B5E20; 
-    -secondary-color: #81C784; 
+    --secondary-color: #81C784; 
     --accent-color: #A5D6A7; 
     --danger-color: #E53935; 
     --warning-color: #FBC02D; 
@@ -63,4 +63,22 @@
   list-style: none;
   gap: 2.5rem;
   align-items: center;
+}
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--secondary-color);
+  transition: width 0.3s ease;
 }
