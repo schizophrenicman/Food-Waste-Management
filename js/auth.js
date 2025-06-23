@@ -172,4 +172,10 @@ class AuthManager {
     }
   }
 
+  logout() {
+    this.currentUser = null;
+    this.currentAdmin = null;
+  }
+
+
 }
