@@ -319,7 +319,7 @@ main {
   box-shadow: var(--shadow);
   transition: transform 0.3s ease, background 0.3s ease;
 }
-team-photo {
+.team-photo {
   width: 120px;
   height: 120px;
   object-fit: cover;
@@ -373,4 +373,42 @@ body {
 }
 .container p{
   font-size: 1.5rem;
+}
+
+.impact-section {
+  background: #cde6d0; 
+  padding: 3rem 0;
+}
+
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.impact-stat {
+  text-align: center;
+  padding: 2rem;
+  background: #e6f4ea; 
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(47, 111, 71, 0.3); 
+  border: 1px solid #a3c9a8; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.impact-stat:hover {
+  background-color: #d0e8d4;
+  box-shadow: 0 6px 12px rgba(47, 111, 71, 0.5);
+}
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #245936; 
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #3a5a3a; 
+  font-weight: 600;
 }
