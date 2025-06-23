@@ -88,6 +88,13 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     document.getElementById('register-form').addEventListener('submit', handleRegister);
     document.getElementById('admin-form').addEventListener('submit', handleAdminLogin);
 
+    // Register type selection
+    document.getElementById('donor-type').addEventListener('click', () => {
+      selectRegisterType('donor');
+    });
+
+    
+
 
 
     
