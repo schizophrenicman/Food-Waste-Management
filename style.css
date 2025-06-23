@@ -53,3 +53,14 @@
     font-family: 'Poppins',sans-serif;
     transition: color 0 3s ;
 }
+.nav-logo-link:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+  align-items: center;
+}
