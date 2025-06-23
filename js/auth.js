@@ -55,4 +55,17 @@ class AuthManager {
         throw new Error('Invalid email format');
       }
 
+      // Validate password
+      const passwordValidation = this.validatePassword(userData.password);
+      if (!passwordValidation.isValid) {
+        throw new Error(passwordValidation.errors.join(', '));
+      }
+
+      // Check if user already exists
+      const existingUser = this.storage.getUserByEmail(userData.email);
+      if (existingUser) {
+        throw new Error('User with this email already exists');
+      }
+    }
+}
 }
