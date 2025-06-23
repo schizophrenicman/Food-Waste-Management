@@ -143,5 +143,16 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         }
       });
     });
+
+        document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tab-btn')) {
+        const tab = e.target.dataset.tab;
+        showAdminTab(tab);
+        
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
 };
 });
