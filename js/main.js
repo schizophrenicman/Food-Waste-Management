@@ -154,5 +154,82 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         e.target.classList.add('active');
       }
     });
+     // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === loginModal) loginModal.style.display = 'none';
+      if (e.target === registerModal) registerModal.style.display = 'none';
+      if (e.target === adminModal) adminModal.style.display = 'none';
+    });
+  }
+
+  function showLoginModal() {
+    loginModal.style.display = 'block';
+    document.getElementById('login-form').reset();
+  }
+
+  function showRegisterModal(type = null) {
+    registerModal.style.display = 'block';
+    // Scroll modal content to top when shown
+    const modalContent = registerModal.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.scrollTop = 0;
+    }
+    document.getElementById('register-form').reset();
+    if (type) {
+      selectRegisterType(type);
+    } else {
+      selectRegisterType('donor'); // Default to donor
+    }
+  }
+
+  function showAdminModal() {
+    adminModal.style.display = 'block';
+    document.getElementById('admin-form').reset();
+  }
+
+  function selectRegisterType(type) {
+    const donorBtn = document.getElementById('donor-type');
+    const receiverBtn = document.getElementById('receiver-type');
+    const documentGroup = document.getElementById('document-upload-group');
+
+    if (type === 'donor') {
+      donorBtn.classList.add('active');
+      receiverBtn.classList.remove('active');
+      documentGroup.style.display = 'none';
+    } else {
+      receiverBtn.classList.add('active');
+      donorBtn.classList.remove('active');
+      documentGroup.style.display = 'block';
+    }
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    const result = await auth.loginUser(email, password);
+    
+    if (result.success) {
+      loginModal.style.display = 'none';
+      updateNavigation();
+      showAlert('Login successful!', 'success');
+      showUserDashboard();
+    } else {
+      showAlert(result.message, 'error');
+    }
+  }
+
+  async function handleRegister(e) {
+    e.preventDefault();
+    
+    const userData = {
+      name: document.getElementById('register-name').value,
+      email: document.getElementById('register-email').value,
+      password: document.getElementById('register-password').value,
+      phone: document.getElementById('register-phone').value,
+      type: document.getElementById('donor-type').classList.contains('active') ? 'donor' : 'receiver'
+    };
 };
 });
