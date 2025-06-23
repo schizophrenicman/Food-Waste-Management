@@ -104,3 +104,10 @@
   background: #dc2626;
   transform: scale(1.05);
 }
+main {
+  margin-top: 70px;
+}
+
+.section {
+  padding: 4rem 0;
+}
