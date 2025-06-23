@@ -106,4 +106,126 @@ class AuthManager {
       };
     }
   }
+
+  // User login
+  async loginUser(email, password) {
+    try {
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      const user = this.storage.getUserByEmail(email);
+      if (!user) {
+        throw new Error('Invalid email or password');
+      }
+
+      if (user.password !== password) {
+        throw new Error('Invalid email or password');
+      }
+
+      // Check if receiver is verified
+      if (user.type === 'receiver' && !user.verified) {
+        throw new Error('Your account is pending verification. Please wait for admin approval.');
+      }
+
+      this.currentUser = user;
+      
+      return {
+        success: true,
+        message: 'Login successful',
+        user: user
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
+  // Admin login
+  async loginAdmin(email, password) {
+    try {
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      const admin = this.storage.getAdmin();
+      if (!admin || admin.email !== email || admin.password !== password) {
+        throw new Error('Invalid admin credentials');
+      }
+
+      this.currentAdmin = admin;
+      
+      return {
+        success: true,
+        message: 'Admin login successful',
+        admin: admin
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
+  logout() {
+    this.currentUser = null;
+    this.currentAdmin = null;
+  }
+
+  isUserLoggedIn() {
+    return this.currentUser !== null;
+  }
+
+  isAdminLoggedIn() {
+    return this.currentAdmin !== null;
+  }
+
+  getCurrentUser() {
+    return this.currentUser;
+  }
+
+  getCurrentAdmin() {
+    return this.currentAdmin;
+  }
+
+  async updateUserProfile(updates) {
+    try {
+      if (!this.currentUser) {
+        throw new Error('No user logged in');
+      }
+
+      if (updates.password) {
+        const passwordValidation = this.validatePassword(updates.password);
+        if (!passwordValidation.isValid) {
+          throw new Error(passwordValidation.errors.join(', '));
+        }
+      }
+
+      const updatedUser = this.storage.updateUser(this.currentUser.email, updates);
+      if (!updatedUser) {
+        throw new Error('Failed to update user profile');
+      }
+
+      this.currentUser = updatedUser;
+      
+      return {
+        success: true,
+        message: 'Profile updated successfully',
+        user: updatedUser
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
 }
+
+window.AuthManager = AuthManager;
