@@ -47,3 +47,9 @@
     margin: 0;
     padding: 0;
 }
+.nav-logo-link{
+    text-decoration: none;
+    color: var(--surface);
+    font-family: 'Poppins',sans-serif;
+    transition: color 0 3s ;
+}
