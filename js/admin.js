@@ -99,7 +99,7 @@ class AdminManager {
     };
  }
 
-  //Delete user
+    //Delete user
   async deleteUser(userEmail) {
     try {
       const users = this.storage.getUsers();
@@ -108,6 +108,24 @@ class AdminManager {
       if (userIndex === -1) {
         throw new Error('User not found');
       }
+
+      users.splice(userIndex, 1);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      const verifications = this.storage.getPendingVerifications();
+      const updatedVerifications = verifications.filter(v => v.userEmail !== userEmail);
+      localStorage.setItem('pendingVerifications', JSON.stringify(updatedVerifications));
+
+      return {
+        success: true,
+        message: 'User deleted successfully'
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
     }
-  }
+ }
 }
