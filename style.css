@@ -121,3 +121,19 @@ main {
 .hero::before {
   content: none;
 }
+.hero-content h1{
+  font-size: 3 rem;
+  font-weight:700;
+  margin-bottom: 1rem;
+}
+.hero-content p{
+  font-style: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+.hero-buttons{
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
