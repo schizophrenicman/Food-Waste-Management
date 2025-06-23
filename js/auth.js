@@ -43,4 +43,16 @@ class AuthManager {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
+
+  // User registration
+  async registerUser(userData) {
+    try {
+      if (!userData.name || !userData.email || !userData.password || !userData.phone || !userData.type) {
+        throw new Error('All fields are required');
+      }
+
+      if (!this.validateEmail(userData.email)) {
+        throw new Error('Invalid email format');
+      }
+
 }
