@@ -3,3 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+:root {
+    --primary-color: #2E7D32; 
+  --primary-hover: #1B5E20; 
+  --secondary-color: #81C784; 
+  --accent-color: #A5D6A7; 
+  --danger-color: #E53935; 
+  --warning-color: #FBC02D; 
+  --success-color: #2E7D32; 
+  --text-primary: #1B1B1B; 
+  --text-secondary: #555555; 
+  --background: #FFFFFF; 
+  --surface: #F5F5F5; 
+  --border: #A5D6A7; 
+}
