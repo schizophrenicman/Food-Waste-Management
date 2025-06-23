@@ -185,4 +185,13 @@ class AuthManager {
     return this.currentAdmin !== null;
   }
 
+  getCurrentUser() {
+    return this.currentUser;
+  }
+
+  getCurrentAdmin() {
+    return this.currentAdmin;
+  }
+
+
 }
