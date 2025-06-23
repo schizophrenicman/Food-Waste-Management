@@ -57,4 +57,19 @@ class AdminManager {
       };
     }
   }
+
+  // Get all users with their status
+  getAllUsers() {
+    const users = this.storage.getUsers();
+    const verifications = this.storage.getPendingVerifications();
+    
+    return users.map(user => {
+      const verification = verifications.find(v => v.userEmail === user.email);
+      return {
+        ...user,
+        verificationStatus: verification ? verification.status : (user.verified ? 'approved' : 'none'),
+        verificationDate: verification ? verification.reviewedAt : null
+      };
+    });
+  }
 }
