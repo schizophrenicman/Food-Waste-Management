@@ -153,4 +153,39 @@ class AdminManager {
     }
   }
 
+    // Get verification details including document
+    getVerificationDetails(verificationId) {
+        const verifications = this.storage. getPendingVerifications();
+        return verifications.find(v => v.id === verificationId);
+  }
+
+    // Search users
+    searchUsers(query) {
+    const users = this.getAllUsers();
+    if (!query) return users;
+    
+    query = query.toLowerCase();
+    return users.filter(user => 
+      user.name.toLowerCase().includes(query) ||
+      user.email.toLowerCase().includes(query) ||
+      user.type.toLowerCase().includes(query)
+    );
+  }
+
+  // Search donations
+  searchDonations(query) {
+    const donations = this.getAllDonations();
+    if (!query) return donations;
+    
+    query = query.toLowerCase();
+    return donations.filter(donation => 
+      donation.foodName.toLowerCase().includes(query) ||
+      donation.donorEmail.toLowerCase().includes(query) ||
+      donation.status.toLowerCase().includes(query)
+    );
+  }
 }
+
+// Export for use in other files
+window.AdminManager = AdminManager;
+
