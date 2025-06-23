@@ -227,3 +227,5 @@ class AuthManager {
     }
   }
 }
+
+window.AuthManager = AuthManager;
