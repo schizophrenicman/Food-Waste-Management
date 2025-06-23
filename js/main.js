@@ -329,5 +329,19 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     
     mainContent.style.display = 'none';
     userDashboard.style.display = 'block';
+
+    // Setup dashboard event listeners
+    setupDashboardEventListeners();
+  }
+
+  function setupDashboardEventListeners() {
+    // Add donation button
+    const addDonationBtn = document.getElementById('add-donation-btn');
+    if (addDonationBtn) {
+      addDonationBtn.addEventListener('click', () => {
+        document.getElementById('add-donation-modal').style.display = 'block';
+      });
+    }
+
 };
 });
