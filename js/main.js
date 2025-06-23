@@ -45,6 +45,23 @@ document.addEventListener('DOMContentLoaded',function(){
     });
 
     document.getElementById('logout-btn').addEventListener('click', logout);
+
+    // Hero buttons
+    document.getElementById('donate-food-btn').addEventListener('click', () => {
+      if (auth.isUserLoggedIn() && auth.getCurrentUser().type === 'donor') {
+        showUserDashboard();
+      } else {
+        showRegisterModal('donor');
+      }
+    });
+
+document.getElementById('find-food-btn').addEventListener('click', () => {
+      if (auth.isUserLoggedIn() && auth.getCurrentUser().type === 'receiver') {
+        showUserDashboard();
+      } else {
+        showRegisterModal('receiver');
+      }
+    });
   }
 
 
