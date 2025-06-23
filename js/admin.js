@@ -77,4 +77,25 @@ class AdminManager {
   getAllDonations() {
     return this.storage.getDonations();
   }
+
+  //Claims
+  getAllClaims() {
+    return this.storage.getClaims();
+  }
+
+  //Statistics
+  getSystemStats() {
+    const stats = this.storage.getStats();
+    const donations = this.getAllDonations();
+    const claims = this.getAllClaims();
+    
+    const availableDonations = donations.filter(d => d.status === 'available').length;
+    const claimedDonations = donations.filter(d => d.status === 'claimed').length;
+        return {
+      ...stats,
+      availableDonations,
+      claimedDonations,
+      claimRate: donations.length > 0 ? ((claimedDonations / donations.length) * 100).toFixed(1) : 0
+    };
+ }
 }
