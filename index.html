@@ -1,0 +1,261 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KhanaSathi - Reducing Food Waste Together</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <h2><a href="#home" class="nav-logo-link">KhanaSathi</a></h2>
+        </div>
+        <ul class="nav-menu" id="nav-menu">
+          <li class="nav-item">
+            <a href="#home" class="nav-link active">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#about" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="#impact" class="nav-link">Impact</a>
+          </li>
+          <li class="nav-item">
+            <a href="#top-donor" class="nav-link">Top Donar</a>
+          </li>
+          <li class="nav-item">
+            <a href="#our-team" class="nav-link">Our Team</a>
+          </li>
+          <li class="nav-item">
+            <a href="#contact" class="nav-link">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" id="register-link">Register</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" id="login-link">Login</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" id="admin-link">Admin</a>
+          </li>
+          <li class="nav-item user-info" id="user-info" style="display: none;">
+            <span id="user-name"></span>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main id="main-content">
+      <section id="home" class="section hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-text">
+              <h1>Together We Can End Food Waste</h1>
+              <p>Connect food donors with those in need. Share surplus food and make a positive impact in your community.</p>
+              <div class="hero-buttons">
+                <button class="btn btn-primary highlight" id="donate-food-btn">Donate Food</button>
+                <button class="btn btn-secondary highlight" id="find-food-btn">Find Food</button>
+              </div>
+            </div>
+            <div class="hero-images">
+              <img src="1.jpeg" alt="FoodShare Impact" class="hero-image" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="section">
+        <div class="container">
+          <h2>About FoodShare</h2>
+          <div class="about-grid">
+            <div class="about-card">
+              <div class="about-icon">🌱</div>
+              <h3>Reduce Waste</h3>
+              <p>Help reduce food waste by sharing surplus food with those who need it most.</p>
+            </div>
+            <div class="about-card">
+              <div class="about-icon">🤝</div>
+              <h3>Build Community</h3>
+              <p>Connect with your neighbors and build stronger, more caring communities.</p>
+            </div>
+            <div class="about-card">
+              <div class="about-icon">💚</div>
+              <h3>Make Impact</h3>
+              <p>Every shared meal makes a difference in someone's life and our environment.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Impact -->
+      <section id="impact" class="section impact-section">
+        <div class="container">
+          <h2>Our Impact</h2>
+          <div class="impact-stats">
+            <div class="impact-stat">
+              <div class="stat-number" id="total-donations">0</div>
+              <div class="stat-label">Meals Shared</div>
+            </div>
+            <div class="impact-stat">
+              <div class="stat-number" id="total-users">0</div>
+              <div class="stat-label">Community Members</div>
+            </div>
+            <div class="impact-stat">
+              <div class="stat-number" id="food-saved">0</div>
+              <div class="stat-label">Pounds of Food Saved</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Top Donor -->
+      <section id="top-donor" class="section">
+        <div class="container">
+          <h2>🏆 Top Donor of the Month</h2>
+          <div id="top-donor-card" class="top-donor-card">
+            <div class="donor-avatar">👤</div>
+            <div class="donor-info">
+              <h3 id="top-donor-name">No donors yet</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Team -->
+      <section id="our-team" class="section">
+        <div class="container">
+          <h2>Our Team</h2>
+          <div class="about-grid">
+            <div class="about-card">
+              <img src="shashwat.jpeg" alt="Shashwat Aryal" class="team-photo" />
+              <h3>Shashwat Aryal</h3>
+            </div>
+            <div class="about-card">
+              <img src="samrat.jpeg" alt="Samrat Jung Thapa" class="team-photo" />
+              <h3>Samrat Jung Thapa</h3>
+            </div>
+            <div class="about-card">
+              <img src="aayush.jpeg" alt="Aayush Pokhrel" class="team-photo" />
+              <h3>Aayush Pokhrel</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+      <!-- Login Modal -->
+      <div id="login-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="login-close">&times;</span>
+          <h2>Login</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-email">Email:</label>
+              <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password:</label>
+              <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+          <div class="form-footer">
+            <p>Don't have an account? <a href="#" id="switch-to-register">Register here</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div id="register-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="register-close">&times;</span>
+          <h2>Register</h2>
+          <div class="register-type-selector">
+            <button type="button" class="btn btn-outline active" id="donor-type">I want to donate food</button>
+            <button type="button" class="btn btn-outline" id="receiver-type">I need food assistance</button>
+          </div>
+          <form id="register-form">
+            <div class="form-group">
+              <label for="register-name">Full Name:</label>
+              <input type="text" id="register-name" required>
+            </div>
+            <div class="form-group">
+              <label for="register-email">Email:</label>
+              <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+              <label for="register-password">Password:</label>
+              <input type="password" id="register-password" required>
+              <small class="password-requirements">
+                Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="register-phone">Phone Number:</label>
+              <input type="tel" id="register-phone" required>
+            </div>
+            <div class="form-group" id="document-upload-group" style="display: none;">
+              <label for="verification-document">Verification Document:</label>
+              <input type="file" id="verification-document" accept=".pdf,.jpg,.jpeg,.png">
+              <small>Please upload a document for verification (ID, benefits card, etc.)</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+          </form>
+          <div class="form-footer">
+            <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Login Modal -->
+      <div id="admin-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="admin-close">&times;</span>
+          <h2>Admin Login</h2>
+          <form id="admin-form">
+            <div class="form-group">
+              <label for="admin-email">Admin Email:</label>
+              <input type="email" id="admin-email" required>
+            </div>
+            <div class="form-group">
+              <label for="admin-password">Admin Password:</label>
+              <input type="password" id="admin-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login as Admin</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- User Dashboard -->
+      <div id="user-dashboard" class="dashboard" style="display: none;">
+        <div class="dashboard-header">
+          <h2 id="dashboard-title">Dashboard</h2>
+          <button id="close-dashboard" class="btn btn-secondary">Back to Home</button>
+        </div>
+        <div id="dashboard-content"></div>
+      </div>
+
+      <!-- Admin Dashboard -->
+      <div id="admin-dashboard" class="dashboard" style="display: none;">
+        <div class="dashboard-header">
+          <h2>Admin Dashboard</h2>
+          <button id="close-admin-dashboard" class="btn btn-secondary">Back to Home</button>
+        </div>
+        <div class="dashboard-tabs">
+          <button class="tab-btn active" data-tab="verification">Verification Requests</button>
+          <button class="tab-btn" data-tab="users">All Users</button>
+          <button class="tab-btn" data-tab="donations">All Donations</button>
+        </div>
+        <div id="admin-content"></div>
+      </div>
+  </body>
+</html>
