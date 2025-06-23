@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded',function(){
     });
 
     document.getElementById('logout-btn').addEventListener('click', logout);
-
     // Hero buttons
     document.getElementById('donate-food-btn').addEventListener('click', () => {
       if (auth.isUserLoggedIn() && auth.getCurrentUser().type === 'donor') {
@@ -62,6 +61,20 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         showRegisterModal('receiver');
       }
     });
+    // Modal close buttons
+    document.getElementById('login-close').addEventListener('click', () => {
+      loginModal.style.display = 'none';
+    });
+
+    document.getElementById('register-close').addEventListener('click', () => {
+      registerModal.style.display = 'none';
+    });
+
+    document.getElementById('admin-close').addEventListener('click', () => {
+      adminModal.style.display = 'none';
+    }); 
+
+    
   }
 
 
