@@ -92,6 +92,21 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     document.getElementById('donor-type').addEventListener('click', () => {
       selectRegisterType('donor');
     });
+    document.getElementById('receiver-type').addEventListener('click', () => {
+      selectRegisterType('receiver');
+    });
+    // Modal switching links
+    document.getElementById('switch-to-register').addEventListener('click', (e) => {
+      e.preventDefault();
+      loginModal.style.display = 'none';
+      showRegisterModal();
+    });
+
+    document.getElementById('switch-to-login').addEventListener('click', (e) => {
+      e.preventDefault();
+      registerModal.style.display = 'none';
+      showLoginModal();
+    });
 
     
 
