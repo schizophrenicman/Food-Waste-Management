@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins';
 }
 :root {
     --primary-color: #2E7D32; 
@@ -174,6 +175,74 @@ main {
   transform: scale(1.05);
   filter: brightness(1.1);
 }
-.hero-images:hover{
-  transform: ;
+.hero-images::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 1rem;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.15) 100%);
+  z-index: 2;
 }
+.about-image {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(111, 207, 151, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+.about-image:hover {
+  box-shadow: 0 6px 12px rgba(111, 207, 151, 0.7);
+}
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--surface);
+  box-shadow: var(--shadow);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  border: none;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  color: var(--surface);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  box-shadow: var(--shadow);
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  border-radius: 0.5rem;
+}
+.btn-secondary:hover {
+  background: var(--primary-color);
+  color: var(--surface);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
