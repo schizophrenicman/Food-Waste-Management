@@ -501,8 +501,8 @@ body {
 }
 
 .site-footer {
-  background: var(--primary-color); 
-  color: var(--surface); 
+  background: var(--secondary-color); 
+  color: var(--text-primary); 
   padding: 2.5rem 1rem;
   text-align: center;
   font-size: 1.1rem;
