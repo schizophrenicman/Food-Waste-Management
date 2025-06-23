@@ -37,4 +37,10 @@ class AuthManager {
       errors: errors
     };
   }
+
+  // Email validation
+  validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 }
