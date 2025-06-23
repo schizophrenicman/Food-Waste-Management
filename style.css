@@ -301,4 +301,71 @@ main {
   margin-bottom: 0.5rem;
 }
 
+.donor-stats {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-secondary);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.about-card{
+  text-align: center;
+  padding: 2rem;
+  background:linear-gradient(145deg,#e6f4ea,#d0e8d4); 
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+team-photo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(111, 207, 151, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+.team-photo:hover {
+  box-shadow: 0 6px 12px rgba(111, 207, 151, 0.7);
+}
 
+.about-card:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(145deg, #cde6d0, #b0d4b3);
+}
+
+.about-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.about-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding-left: 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
