@@ -193,5 +193,37 @@ class AuthManager {
     return this.currentAdmin;
   }
 
+  async updateUserProfile(updates) {
+    try {
+      if (!this.currentUser) {
+        throw new Error('No user logged in');
+      }
 
+      if (updates.password) {
+        const passwordValidation = this.validatePassword(updates.password);
+        if (!passwordValidation.isValid) {
+          throw new Error(passwordValidation.errors.join(', '));
+        }
+      }
+
+      const updatedUser = this.storage.updateUser(this.currentUser.email, updates);
+      if (!updatedUser) {
+        throw new Error('Failed to update user profile');
+      }
+
+      this.currentUser = updatedUser;
+      
+      return {
+        success: true,
+        message: 'Profile updated successfully',
+        user: updatedUser
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
 }
