@@ -193,4 +193,95 @@ class DashboardManager {
     return this.storage.getClaimsByDonor(user.email);
   }
 
+  // Generate dashboard content based on user type
+  generateDashboardContent() {
+    const user = this.auth.getCurrentUser();
+    if (!user) return '';
+
+    if (user.type === 'donor') {
+      return this.generateDonorDashboard();
+    } else if (user.type === 'receiver') {
+      return this.generateReceiverDashboard();
+    }
+  }
+
+  generateDonorDashboard() {
+    const user = this.auth.getCurrentUser();
+    const donations = this.getUserDonations();
+    const claims = this.getDonorClaims();
+
+    return `
+      <div class="dashboard-welcome">
+        <h3>Welcome back, ${user.name}! 👋</h3>
+        <p>Thank you for helping reduce food waste in our community.</p>
+      </div>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-number">${donations.length}</div>
+          <div class="stat-label">Total Donations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${claims.length}</div>
+          <div class="stat-label">Items Claimed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${donations.filter(d => d.status === 'available').length}</div>
+          <div class="stat-label">Available Items</div>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <button class="btn btn-primary" id="add-donation-btn">
+          ➕ Add New Donation
+        </button>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Your Donations</h4>
+        <div id="user-donations" class="food-grid">
+          ${this.renderDonations(donations)}
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Recent Claims</h4>
+        <div id="recent-claims">
+          ${this.renderClaims(claims)}
+        </div>
+      </div>
+
+      <!-- Add Donation Modal -->
+      <div id="add-donation-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="add-donation-close">&times;</span>
+          <h3>Add New Donation</h3>
+          <form id="add-donation-form">
+            <div class="form-group">
+              <label for="food-name">Food Name:</label>
+              <input type="text" id="food-name" required>
+            </div>
+            <div class="form-group">
+              <label for="food-description">Description:</label>
+              <textarea id="food-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="food-quantity">Quantity:</label>
+              <input type="text" id="food-quantity" placeholder="e.g., 5 portions, 2 bags" required>
+            </div>
+            <div class="form-group">
+              <label for="pickup-location">Pickup Location:</label>
+              <input type="text" id="pickup-location" required>
+            </div>
+            <div class="form-group">
+              <label for="expiry-date">Expiry Date (optional):</label>
+              <input type="date" id="expiry-date">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Donation</button>
+          </form>
+        </div>
+      </div>
+    `;
+  }
+
 }
