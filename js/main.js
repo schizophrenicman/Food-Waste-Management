@@ -382,31 +382,45 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     }
 
     // Add donation form
-    const addDonationForm = document.getElementById('add-donation-form');
-    if (addDonationForm) {
-      addDonationForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const donationData = {
-          foodName: document.getElementById('food-name').value,
-          description: document.getElementById('food-description').value,
-          quantity: document.getElementById('food-quantity').value,
-          pickupLocation: document.getElementById('pickup-location').value,
-          expiryDate: document.getElementById('expiry-date').value
-        };
-        
-        const result = await dashboard.createDonation(donationData);
-        
-        if (result.success) {
-          document.getElementById('add-donation-modal').style.display = 'none';
-          showAlert(result.message, 'success');
-          showUserDashboard(); // Refresh dashboard
-          updateImpactStats();
-        } else {
-          showAlert(result.message, 'error');
-        }
-      });
-    }
+      const addDonationForm = document.getElementById('add-donation-form');
+      if (addDonationForm) {
+        addDonationForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const foodImageInput = document.getElementById('food-image');
+          let imageData = null;
+
+          if (foodImageInput && foodImageInput.files.length > 0) {
+            const file = foodImageInput.files[0];
+            imageData = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = error => reject(error);
+              reader.readAsDataURL(file);
+            });
+          }
+          
+          const donationData = {
+            foodName: document.getElementById('food-name').value,
+            description: document.getElementById('food-description').value,
+            quantity: document.getElementById('food-quantity').value,
+            pickupLocation: document.getElementById('pickup-location').value,
+            expiryDate: document.getElementById('expiry-date').value,
+            imageData: imageData
+          };
+          
+          const result = await dashboard.createDonation(donationData);
+          
+          if (result.success) {
+            document.getElementById('add-donation-modal').style.display = 'none';
+            showAlert(result.message, 'success');
+            showUserDashboard(); // Refresh dashboard
+            updateImpactStats();
+          } else {
+            showAlert(result.message, 'error');
+          }
+        });
+      }
   }
 
   function showAdminDashboard() {

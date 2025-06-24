@@ -265,7 +265,7 @@ class DashboardManager {
         <div class="modal-content">
           <span class="close" id="add-donation-close">&times;</span>
           <h3>Add New Donation</h3>
-          <form id="add-donation-form">
+          <form id="add-donation-form" enctype="multipart/form-data">
             <div class="form-group">
               <label for="food-name">Food Name:</label>
               <input type="text" id="food-name" required>
@@ -285,6 +285,10 @@ class DashboardManager {
             <div class="form-group">
               <label for="expiry-date">Expiry Date (optional):</label>
               <input type="date" id="expiry-date">
+            </div>
+            <div class="form-group">
+              <label for="food-image">Food Image (optional):</label>
+              <input type="file" id="food-image" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary">Add Donation</button>
           </form>
@@ -359,6 +363,7 @@ class DashboardManager {
           <p><strong>Location:</strong> ${donation.pickupLocation}</p>
           ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
           ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+          ${donation.imageData ? `<img src="${donation.imageData}" alt="Food Image" class="food-image-preview" />` : ''}
         </div>
         <div class="food-meta">
           <span class="food-date">Posted ${new Date(donation.createdAt).toLocaleDateString()}</span>
@@ -388,6 +393,7 @@ class DashboardManager {
           <p><strong>Location:</strong> ${donation.pickupLocation}</p>
           ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
           ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+          ${donation.imageData ? `<img src="${donation.imageData}" alt="Food Image" class="food-image-preview" />` : ''}
         </div>
         <div class="food-meta">
           <span class="food-donor">By ${donation.donorName}</span>
