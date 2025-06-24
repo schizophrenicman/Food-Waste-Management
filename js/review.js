@@ -57,4 +57,38 @@ class ReviewManager {
     }
   }
 
+  getDonorReviews(donorEmail) {
+    return this.storage.getReviewsByDonor(donorEmail);
+  }
+
+  getDonorAverageRating(donorEmail) {
+    const reviews = this.getDonorReviews(donorEmail);
+    if (reviews.length === 0) return 0;
+    
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1);
+  }
+
+  getTopDonor() {
+    return this.storage.getTopDonor();
+  }
+
+  updateTopDonorDisplay() {
+    const topDonor = this.getTopDonor();
+    const topDonorName = document.getElementById('top-donor-name');
+    const topDonorDonations = document.getElementById('top-donor-donations');
+    const topDonorRating = document.getElementById('top-donor-rating');
+
+    if (topDonor) {
+      topDonorName.textContent = topDonor.name;
+      topDonorDonations.textContent = `${topDonor.totalDonations} donations`;
+      topDonorRating.textContent = `⭐ ${topDonor.averageRating.toFixed(1)} (${topDonor.totalReviews} reviews)`;
+    } else {
+      topDonorName.textContent = 'No donors yet';
+      topDonorDonations.textContent = '0 donations';
+      topDonorRating.textContent = '⭐ 0.0';
+    }
+  }
+
+
 }
