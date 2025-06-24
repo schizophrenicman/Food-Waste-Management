@@ -1,10 +1,11 @@
+// Review system for FoodShare platform
 class ReviewManager {
   constructor(storage, auth) {
     this.storage = storage;
     this.auth = auth;
   }
 
-  //Review submission
+  // Submit a review
   async submitReview(donorEmail, rating, comment = '') {
     try {
       const user = this.auth.getCurrentUser();
@@ -23,8 +24,8 @@ class ReviewManager {
       if (rating < 1 || rating > 5) {
         throw new Error('Rating must be between 1 and 5');
       }
-     
-    //if donor has already reviewed or not
+
+      // Check if user has already reviewed this donor
       const existingReviews = this.storage.getReviews();
       const hasReviewed = existingReviews.some(review => 
         review.reviewerEmail === user.email && review.donorEmail === donorEmail
@@ -33,6 +34,7 @@ class ReviewManager {
       if (hasReviewed) {
         throw new Error('You have already reviewed this donor');
       }
+
       const review = {
         donorEmail: donorEmail,
         reviewerEmail: user.email,
@@ -57,10 +59,12 @@ class ReviewManager {
     }
   }
 
+  // Get reviews for a specific donor
   getDonorReviews(donorEmail) {
     return this.storage.getReviewsByDonor(donorEmail);
   }
 
+  // Calculate average rating for a donor
   getDonorAverageRating(donorEmail) {
     const reviews = this.getDonorReviews(donorEmail);
     if (reviews.length === 0) return 0;
@@ -69,10 +73,12 @@ class ReviewManager {
     return (totalRating / reviews.length).toFixed(1);
   }
 
+  // Get top donor based on reviews
   getTopDonor() {
     return this.storage.getTopDonor();
   }
 
+  // Update top donor display on homepage
   updateTopDonorDisplay() {
     const topDonor = this.getTopDonor();
     const topDonorName = document.getElementById('top-donor-name');
@@ -90,7 +96,7 @@ class ReviewManager {
     }
   }
 
-  //Rendering review form
+  // Render review form
   renderReviewForm(donorEmail, donorName) {
     return `
       <div id="review-modal" class="modal" style="display: block;">
@@ -121,6 +127,7 @@ class ReviewManager {
     `;
   }
 
+  // Render reviews for display
   renderReviews(reviews) {
     if (reviews.length === 0) {
       return '<p class="empty-state">No reviews yet.</p>';
@@ -140,16 +147,16 @@ class ReviewManager {
     `).join('');
   }
 
-  //review form interactions
+  // Initialize review form interactions
   initializeReviewForm() {
-    
+    // Handle star rating clicks
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('star')) {
         const rating = parseInt(e.target.dataset.rating);
         const stars = e.target.parentNode.querySelectorAll('.star');
         const ratingInput = document.getElementById('review-rating');
         
-        
+        // Update visual stars
         stars.forEach((star, index) => {
           if (index < rating) {
             star.classList.add('active');
@@ -158,12 +165,14 @@ class ReviewManager {
           }
         });
         
+        // Update hidden input
         if (ratingInput) {
           ratingInput.value = rating;
         }
       }
     });
 
+    // Handle review form submission
     document.addEventListener('submit', async (e) => {
       if (e.target.id === 'review-form') {
         e.preventDefault();
@@ -189,6 +198,7 @@ class ReviewManager {
       }
     });
 
+    // Handle review modal close
     document.addEventListener('click', (e) => {
       if (e.target.id === 'review-close') {
         document.getElementById('review-modal').remove();
@@ -197,4 +207,5 @@ class ReviewManager {
   }
 }
 
+// Export for use in other files
 window.ReviewManager = ReviewManager;

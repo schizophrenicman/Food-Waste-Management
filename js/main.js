@@ -31,6 +31,33 @@ document.addEventListener('DOMContentLoaded', function() {
     updateImpactStats();
     reviews.updateTopDonorDisplay();
     reviews.initializeReviewForm();
+
+    // Show Top Donor modal on page load
+    const topDonorModal = document.getElementById('top-donor-modal');
+    const topDonorClose = document.getElementById('top-donor-close');
+
+    if (topDonorModal) {
+      // Clone the #top-donor section content into the popup modal container
+      const topDonorContent = document.getElementById('top-donor');
+      const popupContentContainer = document.getElementById('top-donor-popup-content');
+      if (topDonorContent && popupContentContainer) {
+        popupContentContainer.innerHTML = topDonorContent.innerHTML;
+      }
+
+      topDonorModal.style.display = 'block';
+
+      // Close modal on close button click
+      topDonorClose.addEventListener('click', () => {
+        topDonorModal.style.display = 'none';
+      });
+
+      // Close modal when clicking outside the modal content
+      window.addEventListener('click', (event) => {
+        if (event.target === topDonorModal) {
+          topDonorModal.style.display = 'none';
+        }
+      });
+    }
   }
 
   function setupEventListeners() {
