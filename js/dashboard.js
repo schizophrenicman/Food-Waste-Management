@@ -148,4 +148,42 @@ class DashboardManager {
         };
     }
   }
+
+  async deleteDonation(donationId) {
+    try {
+      const user = this.auth.getCurrentUser();
+      if (!user) {
+        throw new Error('User not logged in');
+      }
+
+      const donation = this.storage.getDonationById(donationId);
+      if (!donation) {
+        throw new Error('Donation not found');
+      }
+
+      if (donation.donorEmail !== user.email) {
+        throw new Error('You can only delete your own donations');
+      }
+
+      if (donation.status === 'claimed') {
+        throw new Error('Cannot delete claimed donations');
+      }
+
+      const donations = this.storage.getDonations();
+      const updatedDonations = donations.filter(d => d.id !== donationId);
+      localStorage.setItem('donations', JSON.stringify(updatedDonations));
+
+      return {
+        success: true,
+        message: 'Donation deleted successfully'
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
 }
