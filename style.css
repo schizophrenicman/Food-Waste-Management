@@ -566,3 +566,29 @@ body {
   background-color: var(--primary-color);
   border-radius: 1rem 1rem 0 0; 
 }
+
+.card{
+  background: #f0f9f4;
+  border-radius: 0.75rem;
+  box-shadow: 0.75rem;
+  box-shadow: 0 4px 8px rgba(36,89,54,0,2);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a3c9a8;
+  color: #1f4a2e;
+}
+.card-header{
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.card-title{
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.card-actions{
+  display:flex;
+  gap:0.5rem;
+}
