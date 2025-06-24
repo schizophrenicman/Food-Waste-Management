@@ -126,4 +126,17 @@ class ReviewManager {
       return '<p class="empty-state">No reviews yet.</p>';
     }
 
-}}
+    return reviews.map(review => `
+      <div class="review-item">
+        <div class="review-header">
+          <span class="review-author">${review.reviewerName}</span>
+          <div class="rating">
+            ${'⭐'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+          </div>
+          <span class="review-date">${new Date(review.createdAt).toLocaleDateString()}</span>
+        </div>
+        ${review.comment ? `<p class="review-text">${review.comment}</p>` : ''}
+      </div>
+    `).join('');
+  }
+}
