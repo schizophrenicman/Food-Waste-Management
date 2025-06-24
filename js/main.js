@@ -555,6 +555,100 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       </div>
     `;
   }
+  function setupAdminEventListeners() {
+  }
+
+  function updateImpactStats() {
+    const stats = storage.getStats();
+    document.getElementById('total-donations').textContent = stats.totalDonations;
+    document.getElementById('total-users').textContent = stats.totalUsers;
+    document.getElementById('food-saved').textContent = Math.round(stats.totalDonations * 2.5); // Estimate
+  }
+
+  function showAlert(message, type) {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    alert.textContent = message;
+    
+    // Add to page
+    document.body.insertBefore(alert, document.body.firstChild);
+    
+    // 5 seconds
+    setTimeout(() => {
+      alert.remove();
+    }, 5000);
+  }
+
+  window.approveVerification = async function(verificationId) {
+    const result = await admin.approveVerification(verificationId);
+    if (result.success) {
+      showAlert(result.message, 'success');
+      showAdminTab('verification'); 
+    } else {
+      showAlert(result.message, 'error');
+    }
+  };
+
+  window.rejectVerification = async function(verificationId) {
+    const reason = prompt('Enter reason for rejection (optional):');
+    const result = await admin.rejectVerification(verificationId, reason || '');
+    if (result.success) {
+      showAlert(result.message, 'warning');
+      showAdminTab('verification'); 
+    } else {
+      showAlert(result.message, 'error');
+    }
+  };
+
+  window.deleteUser = async function(userEmail) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      const result = await admin.deleteUser(userEmail);
+      if (result.success) {
+        showAlert(result.message, 'success');
+        showAdminTab('users'); 
+      } else {
+        showAlert(result.message, 'error');
+      }
+    }
+  };
+
+  window.toggleUserVerification = async function(userEmail) {
+    const result = await admin.toggleUserVerification(userEmail);
+    if (result.success) {
+      showAlert(result.message, 'success');
+      showAdminTab('users'); 
+    } else {
+      showAlert(result.message, 'error');
+    }
+  };
+
+  window.deleteDonation = async function(donationId) {
+    if (confirm('Are you sure you want to delete this donation?')) {
+      const result = await dashboard.deleteDonation(donationId);
+      if (result.success) {
+        showAlert(result.message, 'success');
+        showUserDashboard(); 
+        updateImpactStats();
+      } else {
+        showAlert(result.message, 'error');
+      }
+    }
+  };
+
+  window.claimDonation = async function(donationId) {
+    const result = await dashboard.claimDonation(donationId);
+    if (result.success) {
+      showAlert(result.message, 'success');
+      showUserDashboard(); 
+      updateImpactStats();
+    } else {
+      showAlert(result.message, 'error');
+    }
+  };
+
+  window.showReviewModal = function(donorEmail, donorName) {
+    const reviewHTML = reviews.renderReviewForm(donorEmail, donorName);
+    document.body.insertAdjacentHTML('beforeend', reviewHTML);
     
 
    
