@@ -48,11 +48,10 @@
             <button id="logout-btn" class="logout-btn">Logout</button>
           </li>
         </ul>
-      </div>
     </nav>
 
-    <!-- Main -->
-    <main id="main-content">
+      <main id="main-content">
+      <!-- Home -->
       <section id="home" class="section hero">
         <div class="container">
           <div class="hero-content">
@@ -124,6 +123,10 @@
             <div class="donor-avatar">👤</div>
             <div class="donor-info">
               <h3 id="top-donor-name">No donors yet</h3>
+              <div class="donor-stats">
+                <span id="top-donor-donations">0 donations</span>
+                <span id="top-donor-rating">⭐ 0.0</span>
+              </div>
             </div>
           </div>
         </div>
@@ -151,115 +154,119 @@
       </section>
     </main>
 
-      <!-- Login Modal -->
-      <div id="login-modal" class="modal">
-        <div class="modal-content">
-          <span class="close" id="login-close">&times;</span>
-          <h2>Login</h2>
-          <form id="login-form">
-            <div class="form-group">
-              <label for="login-email">Email:</label>
-              <input type="email" id="login-email" required>
-            </div>
-            <div class="form-group">
-              <label for="login-password">Password:</label>
-              <input type="password" id="login-password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
-          <div class="form-footer">
-            <p>Don't have an account? <a href="#" id="switch-to-register">Register here</a></p>
+    <!-- Login -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="login-close">&times;</span>
+        <h2>Login</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" required>
           </div>
-        </div>
-      </div>
-
-      <!-- Register Modal -->
-      <div id="register-modal" class="modal">
-        <div class="modal-content">
-          <span class="close" id="register-close">&times;</span>
-          <h2>Register</h2>
-          <div class="register-type-selector">
-            <button type="button" class="btn btn-outline active" id="donor-type">I want to donate food</button>
-            <button type="button" class="btn btn-outline" id="receiver-type">I need food assistance</button>
+          <div class="form-group">
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required>
           </div>
-          <form id="register-form">
-            <div class="form-group">
-              <label for="register-name">Full Name:</label>
-              <input type="text" id="register-name" required>
-            </div>
-            <div class="form-group">
-              <label for="register-email">Email:</label>
-              <input type="email" id="register-email" required>
-            </div>
-            <div class="form-group">
-              <label for="register-password">Password:</label>
-              <input type="password" id="register-password" required>
-              <small class="password-requirements">
-                Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.
-              </small>
-            </div>
-            <div class="form-group">
-              <label for="register-phone">Phone Number:</label>
-              <input type="tel" id="register-phone" required>
-            </div>
-            <div class="form-group" id="document-upload-group" style="display: none;">
-              <label for="verification-document">Verification Document:</label>
-              <input type="file" id="verification-document" accept=".pdf,.jpg,.jpeg,.png">
-              <small>Please upload a document for verification (ID, benefits card, etc.)</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-          </form>
-          <div class="form-footer">
-            <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <div class="form-footer">
+          <p>Don't have an account? <a href="#" id="switch-to-register">Register here</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register -->
+    <div id="register-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="register-close">&times;</span>
+        <h2>Register</h2>
+        <div class="register-type-selector">
+          <button type="button" class="btn btn-outline active" id="donor-type">I want to donate food</button>
+          <button type="button" class="btn btn-outline" id="receiver-type">I need food assistance</button>
+        </div>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="register-name">Full Name:</label>
+            <input type="text" id="register-name" required>
           </div>
+          <div class="form-group">
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" required>
+            <small class="password-requirements">
+              Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="register-phone">Phone Number:</label>
+            <input type="tel" id="register-phone" required>
+          </div>
+          <div class="form-group" id="document-upload-group" style="display: none;">
+            <label for="verification-document">Verification Document:</label>
+            <input type="file" id="verification-document" accept=".pdf,.jpg,.jpeg,.png">
+            <small>Please upload a document for verification (ID, benefits card, etc.)</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <div class="form-footer">
+          <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
         </div>
       </div>
+    </div>
 
-      <!-- Admin Login Modal -->
-      <div id="admin-modal" class="modal">
-        <div class="modal-content">
-          <span class="close" id="admin-close">&times;</span>
-          <h2>Admin Login</h2>
-          <form id="admin-form">
-            <div class="form-group">
-              <label for="admin-email">Admin Email:</label>
-              <input type="email" id="admin-email" required>
-            </div>
-            <div class="form-group">
-              <label for="admin-password">Admin Password:</label>
-              <input type="password" id="admin-password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login as Admin</button>
-          </form>
-        </div>
+    <!-- Admin Login -->
+    <div id="admin-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="admin-close">&times;</span>
+        <h2>Admin Login</h2>
+        <form id="admin-form">
+          <div class="form-group">
+            <label for="admin-email">Admin Email:</label>
+            <input type="email" id="admin-email" required>
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Admin Password:</label>
+            <input type="password" id="admin-password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login as Admin</button>
+        </form>
       </div>
+    </div>
 
-      <!-- User Dashboard -->
-      <div id="user-dashboard" class="dashboard" style="display: none;">
-        <div class="dashboard-header">
-          <h2 id="dashboard-title">Dashboard</h2>
-          <button id="close-dashboard" class="btn btn-secondary">Back to Home</button>
-        </div>
-        <div id="dashboard-content"></div>
+    <!-- User Dashboard -->
+    <div id="user-dashboard" class="dashboard" style="display: none;">
+      <div class="dashboard-header">
+        <h2 id="dashboard-title">Dashboard</h2>
+        <button id="close-dashboard" class="btn btn-secondary">Back to Home</button>
       </div>
+      <div id="dashboard-content"></div>
+    </div>
 
-      <!-- Admin Dashboard -->
-      <div id="admin-dashboard" class="dashboard" style="display: none;">
-        <div class="dashboard-header">
-          <h2>Admin Dashboard</h2>
-          <button id="close-admin-dashboard" class="btn btn-secondary">Back to Home</button>
-        </div>
-        <div class="dashboard-tabs">
-          <button class="tab-btn active" data-tab="verification">Verification Requests</button>
-          <button class="tab-btn" data-tab="users">All Users</button>
-          <button class="tab-btn" data-tab="donations">All Donations</button>
-        </div>
-        <div id="admin-content"></div>
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="dashboard" style="display: none;">
+      <div class="dashboard-header">
+        <h2>Admin Dashboard</h2>
+        <button id="close-admin-dashboard" class="btn btn-secondary">Back to Home</button>
       </div>
+      <div class="dashboard-tabs">
+        <button class="tab-btn active" data-tab="verification">Verification Requests</button>
+        <button class="tab-btn" data-tab="users">All Users</button>
+        <button class="tab-btn" data-tab="donations">All Donations</button>
+      </div>
+      <div id="admin-content"></div>
+    </div>
 
-      <script src="js/admin.js"></script>
-      
-      <footer class="site-footer">
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/reviews.js"></script>
+    <script src="js/main.js"></script>
+    <footer class="site-footer">
       <div class="container" id="contact">
         <p>Contact us: <a href="mailto:shashwataryal26@gmail.com">shashwataryal26@gmail.com</a> | Phone: +977 9765340161 | Address: Bafal, Kathmandu, Nepal</p>
       </div>
