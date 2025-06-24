@@ -164,4 +164,36 @@ class ReviewManager {
       }
     });
 
-  }}
+    document.addEventListener('submit', async (e) => {
+      if (e.target.id === 'review-form') {
+        e.preventDefault();
+        
+        const donorEmail = document.getElementById('review-donor-email').value;
+        const rating = document.getElementById('review-rating').value;
+        const comment = document.getElementById('review-comment').value;
+        
+        if (!rating) {
+          alert('Please select a rating');
+          return;
+        }
+
+        const result = await this.submitReview(donorEmail, rating, comment);
+        
+        if (result.success) {
+          alert(result.message);
+          document.getElementById('review-modal').remove();
+          this.updateTopDonorDisplay();
+        } else {
+          alert(result.message);
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.id === 'review-close') {
+        document.getElementById('review-modal').remove();
+      }
+    });
+  }
+}
+
