@@ -116,4 +116,36 @@ class DashboardManager {
       };
     }
   }
+
+    async updateDonationStatus(donationId, status) {
+      try {
+        const user = this.auth.getCurrentUser();
+        if (!user) {
+          throw new Error('User not logged in');
+        }
+
+        const donation = this.storage.getDonationById(donationId);
+        if (!donation) {
+          throw new Error('Donation not found');
+        }
+
+        if (donation.donorEmail !== user.email) {
+          throw new Error('You can only update your own donations');
+        }
+
+        const updatedDonation = this.storage.updateDonation(donationId, { status });
+
+        return {
+          success: true,
+          message: 'Donation status updated successfully',
+          donation: updatedDonation
+        };
+
+      } catch (error) {
+        return {
+          success: false,
+          message: error.message
+        };
+    }
+  }
 }
