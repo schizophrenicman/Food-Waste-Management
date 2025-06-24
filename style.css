@@ -519,6 +519,12 @@ body {
   text-decoration: none;
   font-weight: 600;
 }
+@media (max-width: 768px) {
+  .site-footer {
+    font-size: 0.9rem;
+    padding: 1rem 0;
+  }
+}
 .dashboard{
   position: fixed;
   top: 0;
@@ -785,3 +791,22 @@ body {
   box-shadow: 0 0 15px 5px var(--accent-color);
   border-color: var(--primary-color);
 }
+
+.alert-success{
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.alert-error{
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.alert-warning{
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
