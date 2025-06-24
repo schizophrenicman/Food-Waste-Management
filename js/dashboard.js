@@ -333,4 +333,33 @@ class DashboardManager {
     `;
   }
 
+  renderDonations(donations) {
+    if (donations.length === 0) {
+      return '<p class="empty-state">No donations yet. Click "Add New Donation" to get started!</p>';
+    }
+
+    return donations.map(donation => `
+      <div class="food-item">
+        <div class="food-header">
+          <div class="food-title">${donation.foodName}</div>
+          <div class="food-status status-${donation.status}">${donation.status}</div>
+        </div>
+        <div class="food-details">
+          <p><strong>Quantity:</strong> ${donation.quantity}</p>
+          <p><strong>Location:</strong> ${donation.pickupLocation}</p>
+          ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+        </div>
+        <div class="food-meta">
+          <span class="food-date">Posted ${new Date(donation.createdAt).toLocaleDateString()}</span>
+          <div class="food-actions">
+            ${donation.status === 'available' ? `
+              <button class="btn btn-danger btn-small" onclick="deleteDonation('${donation.id}')">Delete</button>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
 }
