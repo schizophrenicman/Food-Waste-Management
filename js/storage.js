@@ -23,4 +23,30 @@ class StorageManager {
       }
     });
   }
+  // User management
+  saveUser(user) {
+    const users = this.getUsers();
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+
+  getUserByEmail(email) {
+    const users = this.getUsers();
+    return users.find(user => user.email === email);
+  }
+
+  updateUser(email, updates) {
+    const users = this.getUsers();
+    const userIndex = users.findIndex(user => user.email === email);
+    if (userIndex !== -1) {
+      users[userIndex] = { ...users[userIndex], ...updates };
+      localStorage.setItem('users', JSON.stringify(users));
+      return users[userIndex];
+    }
+    return null;
+  }
 }
