@@ -9,7 +9,7 @@ class StorageManager {
     if (!localStorage.getItem('admin')) {
       const adminData = {
         email: 'admin@gmail.com',
-        password: 'Admin@123', // Updated password as per user request
+        password: 'Admin@123', 
         name: 'System Administrator'
       };
       localStorage.setItem('admin', JSON.stringify(adminData));
