@@ -409,10 +409,154 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         adminContent.innerHTML = renderDonationsTab();
         break;
     }
+     setupAdminEventListeners();
+  }
+
+  function renderVerificationTab() {
+    const pending = admin.getPendingVerifications();
     
+    return `
+      <div class="admin-section">
+        <h3>Pending Verifications (${pending.length})</h3>
+        <div class="verification-list">
+          ${pending.map(verification => `
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">${verification.userName}</div>
+                <div class="card-date">${new Date(verification.submittedAt).toLocaleDateString()}</div>
+              </div>
+              <p><strong>Email:</strong> ${verification.userEmail}</p>
+              <p><strong>Type:</strong> ${verification.userType}</p>
+              ${verification.documentData ? `
+                <div class="document-section">
+                  <p><strong>Document:</strong> ${verification.documentData.name}</p>
+                  ${verification.documentData.type.startsWith('image/') ? `
+                    <img src="${verification.documentData.data}" alt="Verification document" class="document-preview">
+                  ` : `
+                    <p>Document type: ${verification.documentData.type}</p>
+                  `}
+                </div>
+              ` : ''}
+              <div class="card-actions">
+                <button class="btn btn-success" onclick="approveVerification('${verification.id}')">
+                  Approve
+                </button>
+                <button class="btn btn-danger" onclick="rejectVerification('${verification.id}')">
+                  Reject
+                </button>
+              </div>
+            </div>
+          `).join('')}
+          ${pending.length === 0 ? '<p class="empty-state">No pending verifications.</p>' : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderUsersTab() {
+    const users = admin.getAllUsers();
+    const stats = admin.getSystemStats();
     
+    return `
+      <div class="admin-section">
+        <div class="admin-stats">
+          <div class="stat-card">
+            <div class="stat-number">${stats.totalUsers}</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.verifiedReceivers}</div>
+            <div class="stat-label">Verified Receivers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${users.filter(u => u.type === 'donor').length}</div>
+            <div class="stat-label">Donors</div>
+          </div>
+        </div>
+        
+        <h3>All Users (${users.length})</h3>
+        <div class="users-list">
+          ${users.map(user => `
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">${user.name}</div>
+                <div class="user-type ${user.type}">${user.type}</div>
+              </div>
+              <p><strong>Email:</strong> ${user.email}</p>
+              <p><strong>Phone:</strong> ${user.phone}</p>
+              <p><strong>Status:</strong> 
+                <span class="status ${user.verified ? 'verified' : 'unverified'}">
+                  ${user.verified ? 'Verified' : 'Unverified'}
+                </span>
+              </p>
+              <p><strong>Registered:</strong> ${new Date(user.registeredAt).toLocaleDateString()}</p>
+              <div class="card-actions">
+                <button class="btn ${user.verified ? 'btn-warning' : 'btn-success'}" 
+                        onclick="toggleUserVerification('${user.email}')">
+                  ${user.verified ? 'Unverify' : 'Verify'}
+                </button>
+                <button class="btn btn-danger" onclick="deleteUser('${user.email}')">
+                  Delete
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderDonationsTab() {
+    const donations = admin.getAllDonations();
+    const stats = admin.getSystemStats();
     
+    return `
+      <div class="admin-section">
+        <div class="admin-stats">
+          <div class="stat-card">
+            <div class="stat-number">${stats.totalDonations}</div>
+            <div class="stat-label">Total Donations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.availableDonations}</div>
+            <div class="stat-label">Available</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.claimedDonations}</div>
+            <div class="stat-label">Claimed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.claimRate}%</div>
+            <div class="stat-label">Claim Rate</div>
+          </div>
+        </div>
+        
+        <h3>All Donations (${donations.length})</h3>
+        <div class="food-grid">
+          ${donations.map(donation => `
+            <div class="food-item">
+              <div class="food-header">
+                <div class="food-title">${donation.foodName}</div>
+                <div class="food-status status-${donation.status}">${donation.status}</div>
+              </div>
+              <div class="food-details">
+                <p><strong>Donor:</strong> ${donation.donorName}</p>
+                <p><strong>Quantity:</strong> ${donation.quantity}</p>
+                <p><strong>Location:</strong> ${donation.pickupLocation}</p>
+                ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+              </div>
+              <div class="food-meta">
+                <span class="food-date">${new Date(donation.createdAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+          `).join('')}
+          ${donations.length === 0 ? '<p class="empty-state">No donations yet.</p>' : ''}
+        </div>
+      </div>
+    `;
+  }
     
 
+   
   };
 });
