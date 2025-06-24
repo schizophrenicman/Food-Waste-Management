@@ -1,13 +1,13 @@
-// Main application logic for FoodShare platform
+
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize managers
+  
   const storage = new StorageManager();
   const auth = new AuthManager(storage);
   const admin = new AdminManager(storage, auth);
   const dashboard = new DashboardManager(storage, auth);
   const reviews = new ReviewManager(storage, auth);
 
-  // DOM elements
+  
   const loginModal = document.getElementById('login-modal');
   const registerModal = document.getElementById('register-modal');
   const adminModal = document.getElementById('admin-modal');
@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const userInfo = document.getElementById('user-info');
   const userName = document.getElementById('user-name');
 
-  // Navigation elements
+  
   const navLinks = document.querySelectorAll('.nav-link');
   const hamburger = document.getElementById('hamburger');
   const navMenu = document.getElementById('nav-menu');
 
-  // Initialize the application
+  
   init();
 
   function init() {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('logout-btn').addEventListener('click', logout);
 
-    // Hero buttons
+    //  buttons
     document.getElementById('donate-food-btn').addEventListener('click', () => {
       if (auth.isUserLoggedIn() && auth.getCurrentUser().type === 'donor') {
         showUserDashboard();
@@ -69,7 +69,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       }
     });
 
-    // Modal close buttons
+   
     document.getElementById('login-close').addEventListener('click', () => {
       loginModal.style.display = 'none';
     });
@@ -82,7 +82,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       adminModal.style.display = 'none';
     });
 
-    // Dashboard close buttons
+    //  close buttons
     document.getElementById('close-dashboard').addEventListener('click', () => {
       userDashboard.style.display = 'none';
       mainContent.style.display = 'block';
@@ -93,12 +93,12 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       mainContent.style.display = 'block';
     });
 
-    // Form submissions
+   
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('register-form').addEventListener('submit', handleRegister);
     document.getElementById('admin-form').addEventListener('submit', handleAdminLogin);
 
-    // Register type selection
+    
     document.getElementById('donor-type').addEventListener('click', () => {
       selectRegisterType('donor');
     });
@@ -107,7 +107,6 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       selectRegisterType('receiver');
     });
 
-    // Modal switching links
     document.getElementById('switch-to-register').addEventListener('click', (e) => {
       e.preventDefault();
       loginModal.style.display = 'none';
@@ -120,12 +119,12 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       showLoginModal();
     });
 
-    // Mobile menu toggle
+   
     hamburger.addEventListener('click', () => {
       navMenu.classList.toggle('active');
     });
 
-    // Smooth scrolling for navigation links
+    
     navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
@@ -134,29 +133,27 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
           const target = document.querySelector(href);
           if (target) {
             target.scrollIntoView({ behavior: 'smooth' });
-            // Update active link
+            
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
-            // Close mobile menu
+           
             navMenu.classList.remove('active');
           }
         }
       });
     });
 
-    // Admin dashboard tabs
+   
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('tab-btn')) {
         const tab = e.target.dataset.tab;
         showAdminTab(tab);
         
-        // Update active tab
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
       }
     });
 
-    // Close modals when clicking outside
     window.addEventListener('click', (e) => {
       if (e.target === loginModal) loginModal.style.display = 'none';
       if (e.target === registerModal) registerModal.style.display = 'none';
@@ -171,7 +168,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
 
   function showRegisterModal(type = null) {
     registerModal.style.display = 'block';
-    // Scroll modal content to top when shown
+    
     const modalContent = registerModal.querySelector('.modal-content');
     if (modalContent) {
       modalContent.scrollTop = 0;
@@ -180,7 +177,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     if (type) {
       selectRegisterType(type);
     } else {
-      selectRegisterType('donor'); // Default to donor
+      selectRegisterType('donor'); 
     }
   }
 
@@ -234,7 +231,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       type: document.getElementById('donor-type').classList.contains('active') ? 'donor' : 'receiver'
     };
 
-    // Handle document upload for receivers
+    
     if (userData.type === 'receiver') {
       const fileInput = document.getElementById('verification-document');
       if (fileInput.files[0]) {
@@ -333,12 +330,12 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     mainContent.style.display = 'none';
     userDashboard.style.display = 'block';
 
-    // Setup dashboard event listeners
+    
     setupDashboardEventListeners();
   }
 
   function setupDashboardEventListeners() {
-    // Add donation button
+    
     const addDonationBtn = document.getElementById('add-donation-btn');
     if (addDonationBtn) {
       addDonationBtn.addEventListener('click', () => {
@@ -346,7 +343,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       });
     }
 
-    // Add donation modal close
+    
     const addDonationClose = document.getElementById('add-donation-close');
     if (addDonationClose) {
       addDonationClose.addEventListener('click', () => {
@@ -354,7 +351,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       });
     }
 
-    // Add donation form
+   
     const addDonationForm = document.getElementById('add-donation-form');
     if (addDonationForm) {
       addDonationForm.addEventListener('submit', async (e) => {
@@ -373,7 +370,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         if (result.success) {
           document.getElementById('add-donation-modal').style.display = 'none';
           showAlert(result.message, 'success');
-          showUserDashboard(); // Refresh dashboard
+          showUserDashboard(); 
           updateImpactStats();
         } else {
           showAlert(result.message, 'error');
@@ -391,7 +388,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     mainContent.style.display = 'none';
     adminDashboard.style.display = 'block';
 
-    // Show verification tab by default
+    
     showAdminTab('verification');
   }
 
@@ -562,7 +559,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     const stats = storage.getStats();
     document.getElementById('total-donations').textContent = stats.totalDonations;
     document.getElementById('total-users').textContent = stats.totalUsers;
-    document.getElementById('food-saved').textContent = Math.round(stats.totalDonations * 2.5); // Estimate
+    document.getElementById('food-saved').textContent = Math.round(stats.totalDonations * 2.5); 
   }
 
   function showAlert(message, type) {
@@ -570,10 +567,10 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     alert.className = `alert alert-${type}`;
     alert.textContent = message;
     
-    // Add to page
+   
     document.body.insertBefore(alert, document.body.firstChild);
     
-    // 5 seconds
+   
     setTimeout(() => {
       alert.remove();
     }, 5000);

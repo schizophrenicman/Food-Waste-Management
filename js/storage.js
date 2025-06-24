@@ -23,33 +23,40 @@ class StorageManager {
       }
     });
   }
-  // User management
-  saveUser(user) {
-    const users = this.getUsers();
-    users.push(user);
-    localStorage.setItem('users', JSON.stringify(users));
+
+   
+
+  
+  saveDonation(donation) {
+    const donations = this.getDonations();
+    donation.id = Date.now().toString();
+    donation.createdAt = new Date().toISOString();
+    donations.push(donation);
+    localStorage.setItem('donations', JSON.stringify(donations));
+    return donation;
   }
 
-  getUsers() {
-    return JSON.parse(localStorage.getItem('users') || '[]');
+  getDonations() {
+    return JSON.parse(localStorage.getItem('donations') || '[]');
   }
 
-  getUserByEmail(email) {
-    const users = this.getUsers();
-    return users.find(user => user.email === email);
+  getDonationById(id) {
+    const donations = this.getDonations();
+    return donations.find(donation => donation.id === id);
   }
 
-  updateUser(email, updates) {
-    const users = this.getUsers();
-    const userIndex = users.findIndex(user => user.email === email);
-    if (userIndex !== -1) {
-      users[userIndex] = { ...users[userIndex], ...updates };
-      localStorage.setItem('users', JSON.stringify(users));
-      return users[userIndex];
+  updateDonation(id, updates) {
+    const donations = this.getDonations();
+    const donationIndex = donations.findIndex(donation => donation.id === id);
+    if (donationIndex !== -1) {
+      donations[donationIndex] = { ...donations[donationIndex], ...updates };
+      localStorage.setItem('donations', JSON.stringify(donations));
+      return donations[donationIndex];
     }
     return null;
   }
-  // Claims management
+
+  
   saveClaim(claim) {
     const claims = this.getClaims();
     claim.id = Date.now().toString();
@@ -73,7 +80,7 @@ class StorageManager {
     return claims.filter(claim => claim.donorEmail === donorEmail);
   }
 
-  // Reviews management
+ 
   saveReview(review) {
     const reviews = this.getReviews();
     review.id = Date.now().toString();
@@ -92,7 +99,7 @@ class StorageManager {
     return reviews.filter(review => review.donorEmail === donorEmail);
   }
 
-  // Verification management
+  
   savePendingVerification(verification) {
     const pending = this.getPendingVerifications();
     verification.id = Date.now().toString();
@@ -115,8 +122,8 @@ class StorageManager {
       pending[verificationIndex].adminNotes = adminNotes;
       pending[verificationIndex].reviewedAt = new Date().toISOString();
       localStorage.setItem('pendingVerifications', JSON.stringify(pending));
-
-      // If approved, update user status
+      
+      
       if (status === 'approved') {
         const userEmail = pending[verificationIndex].userEmail;
         this.updateUser(userEmail, { verified: true });
@@ -127,12 +134,12 @@ class StorageManager {
     return null;
   }
 
-  // Admin management
+  
   getAdmin() {
     return JSON.parse(localStorage.getItem('admin'));
   }
 
-  // Statistics
+  
   getStats() {
     const users = this.getUsers();
     const donations = this.getDonations();
@@ -146,7 +153,8 @@ class StorageManager {
       pendingVerifications: this.getPendingVerifications().filter(v => v.status === 'pending').length
     };
   }
-  // Calculate top donor based on reviews
+
+  
   getTopDonor() {
     const users = this.getUsers();
     const reviews = this.getReviews();
@@ -163,7 +171,7 @@ class StorageManager {
       
       if (donorReviews.length > 0) {
         const averageRating = donorReviews.reduce((sum, review) => sum + review.rating, 0) / donorReviews.length;
-        const score = averageRating * donorReviews.length; // Weight by number of reviews
+        const score = averageRating * donorReviews.length; 
         
         if (score > bestScore) {
           bestScore = score;
@@ -187,5 +195,6 @@ class StorageManager {
     this.initializeStorage();
   }
 }
-//export for other files
+
+// Export for use in other files
 window.StorageManager = StorageManager;
