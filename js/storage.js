@@ -116,5 +116,36 @@ class StorageManager {
       pending[verificationIndex].reviewedAt = new Date().toISOString();
       localStorage.setItem('pendingVerifications', JSON.stringify(pending));
 
+      // If approved, update user status
+      if (status === 'approved') {
+        const userEmail = pending[verificationIndex].userEmail;
+        this.updateUser(userEmail, { verified: true });
+      }
+      
+      return pending[verificationIndex];
+    }
+    return null;
+  }
+
+  // Admin management
+  getAdmin() {
+    return JSON.parse(localStorage.getItem('admin'));
+  }
+
+  // Statistics
+  getStats() {
+    const users = this.getUsers();
+    const donations = this.getDonations();
+    const claims = this.getClaims();
+    
+    return {
+      totalUsers: users.length,
+      totalDonations: donations.length,
+      totalClaims: claims.length,
+      verifiedReceivers: users.filter(u => u.type === 'receiver' && u.verified).length,
+      pendingVerifications: this.getPendingVerifications().filter(v => v.status === 'pending').length
+    };
+  }
+
 
 }
