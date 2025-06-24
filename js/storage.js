@@ -146,6 +146,46 @@ class StorageManager {
       pendingVerifications: this.getPendingVerifications().filter(v => v.status === 'pending').length
     };
   }
+  // Calculate top donor based on reviews
+  getTopDonor() {
+    const users = this.getUsers();
+    const reviews = this.getReviews();
+    const donations = this.getDonations();
+    
+    const donors = users.filter(user => user.type === 'donor');
+    
+    let topDonor = null;
+    let bestScore = 0;
+    
+    donors.forEach(donor => {
+      const donorReviews = reviews.filter(review => review.donorEmail === donor.email);
+      const donorDonations = donations.filter(donation => donation.donorEmail === donor.email);
+      
+      if (donorReviews.length > 0) {
+        const averageRating = donorReviews.reduce((sum, review) => sum + review.rating, 0) / donorReviews.length;
+        const score = averageRating * donorReviews.length; // Weight by number of reviews
+        
+        if (score > bestScore) {
+          bestScore = score;
+          topDonor = {
+            ...donor,
+            averageRating,
+            totalReviews: donorReviews.length,
+            totalDonations: donorDonations.length
+          };
+        }
+      }
+    });
+    
+    return topDonor;
+  }
 
-
+  // Clear all data (for testing purposes)
+  clearAllData() {
+    const keys = ['users', 'donations', 'claims', 'reviews', 'pendingVerifications'];
+    keys.forEach(key => localStorage.removeItem(key));
+    this.initializeStorage();
+  }
 }
+//export for other files
+window.StorageManager = StorageManager;
