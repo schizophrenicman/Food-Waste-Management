@@ -139,4 +139,29 @@ class ReviewManager {
       </div>
     `).join('');
   }
-}
+
+  //review form interactions
+  initializeReviewForm() {
+    
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('star')) {
+        const rating = parseInt(e.target.dataset.rating);
+        const stars = e.target.parentNode.querySelectorAll('.star');
+        const ratingInput = document.getElementById('review-rating');
+        
+        
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.classList.add('active');
+          } else {
+            star.classList.remove('active');
+          }
+        });
+        
+        if (ratingInput) {
+          ratingInput.value = rating;
+        }
+      }
+    });
+
+  }}
