@@ -193,7 +193,6 @@ class DashboardManager {
     return this.storage.getClaimsByDonor(user.email);
   }
 
-  // Generate dashboard content based on user type
   generateDashboardContent() {
     const user = this.auth.getCurrentUser();
     if (!user) return '';
@@ -284,4 +283,152 @@ class DashboardManager {
     `;
   }
 
+  generateReceiverDashboard() {
+    const user = this.auth.getCurrentUser();
+    const claims = this.getUserClaims();
+    const availableDonations = this.getAvailableDonations();
+
+    if (!user.verified) {
+      return `
+        <div class="dashboard-welcome">
+          <h3>Welcome, ${user.name}! 👋</h3>
+          <div class="alert alert-warning">
+            <strong>Account Pending Verification</strong><br>
+            Your account is currently under review. You'll be able to claim food donations once verified by our admin team.
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="dashboard-welcome">
+        <h3>Welcome back, ${user.name}! 👋</h3>
+        <p>Find available food donations in your community.</p>
+      </div>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-number">${availableDonations.length}</div>
+          <div class="stat-label">Available Donations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${claims.length}</div>
+          <div class="stat-label">Your Claims</div>
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Available Food Donations</h4>
+        <div id="available-donations" class="food-grid">
+          ${this.renderAvailableDonations(availableDonations)}
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Your Claims</h4>
+        <div id="user-claims">
+          ${this.renderUserClaims(claims)}
+        </div>
+      </div>
+    `;
+  }
+
+  renderDonations(donations) {
+    if (donations.length === 0) {
+      return '<p class="empty-state">No donations yet. Click "Add New Donation" to get started!</p>';
+    }
+
+    return donations.map(donation => `
+      <div class="food-item">
+        <div class="food-header">
+          <div class="food-title">${donation.foodName}</div>
+          <div class="food-status status-${donation.status}">${donation.status}</div>
+        </div>
+        <div class="food-details">
+          <p><strong>Quantity:</strong> ${donation.quantity}</p>
+          <p><strong>Location:</strong> ${donation.pickupLocation}</p>
+          ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+        </div>
+        <div class="food-meta">
+          <span class="food-date">Posted ${new Date(donation.createdAt).toLocaleDateString()}</span>
+          <div class="food-actions">
+            ${donation.status === 'available' ? `
+              <button class="btn btn-danger btn-small" onclick="deleteDonation('${donation.id}')">Delete</button>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+    renderAvailableDonations(donations) {
+    if (donations.length === 0) {
+      return '<p class="empty-state">No available donations at the moment. Check back later!</p>';
+    }
+
+    return donations.map(donation => `
+      <div class="food-item">
+        <div class="food-header">
+          <div class="food-title">${donation.foodName}</div>
+          <div class="food-status status-${donation.status}">Available</div>
+        </div>
+        <div class="food-details">
+          <p><strong>Quantity:</strong> ${donation.quantity}</p>
+          <p><strong>Location:</strong> ${donation.pickupLocation}</p>
+          ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+        </div>
+        <div class="food-meta">
+          <span class="food-donor">By ${donation.donorName}</span>
+          <button class="btn btn-primary btn-small" onclick="claimDonation('${donation.id}')">
+            Claim Food
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderClaims(claims) {
+    if (claims.length === 0) {
+      return '<p class="empty-state">No claims yet.</p>';
+    }
+
+    return claims.map(claim => `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">${claim.foodName}</div>
+          <div class="card-date">${new Date(claim.claimedAt).toLocaleDateString()}</div>
+        </div>
+        <p><strong>Claimed by:</strong> ${claim.receiverName}</p>
+        <p><strong>Contact:</strong> ${claim.receiverPhone}</p>
+        <p><strong>Quantity:</strong> ${claim.quantity}</p>
+        <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+      </div>
+    `).join('');
+  }
+
+  renderUserClaims(claims) {
+    if (claims.length === 0) {
+      return '<p class="empty-state">No claims yet.</p>';
+    }
+
+    return claims.map(claim => `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">${claim.foodName}</div>
+          <div class="card-date">${new Date(claim.claimedAt).toLocaleDateString()}</div>
+        </div>
+        <p><strong>Donor:</strong> ${claim.donorName}</p>
+        <p><strong>Contact:</strong> ${claim.donorPhone}</p>
+        <p><strong>Quantity:</strong> ${claim.quantity}</p>
+        <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+        <button class="btn btn-secondary btn-small" onclick="showReviewModal('${claim.donorEmail}', '${claim.donorName}')">
+          Leave Review
+        </button>
+      </div>
+    `).join('');
+  }
 }
+
+window.DashboardManager = DashboardManager;
