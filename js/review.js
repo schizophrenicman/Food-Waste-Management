@@ -90,5 +90,40 @@ class ReviewManager {
     }
   }
 
+  //Rendering review form
+  renderReviewForm(donorEmail, donorName) {
+    return `
+      <div id="review-modal" class="modal" style="display: block;">
+        <div class="modal-content">
+          <span class="close" id="review-close">&times;</span>
+          <h3>Review ${donorName}</h3>
+          <form id="review-form">
+            <input type="hidden" id="review-donor-email" value="${donorEmail}">
+            <div class="form-group">
+              <label>Rating:</label>
+              <div class="rating" id="rating-stars">
+                <span class="star" data-rating="1">⭐</span>
+                <span class="star" data-rating="2">⭐</span>
+                <span class="star" data-rating="3">⭐</span>
+                <span class="star" data-rating="4">⭐</span>
+                <span class="star" data-rating="5">⭐</span>
+              </div>
+              <input type="hidden" id="review-rating" required>
+            </div>
+            <div class="form-group">
+              <label for="review-comment">Comment (optional):</label>
+              <textarea id="review-comment" rows="4" placeholder="Share your experience..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    `;
+  }
 
-}
+  renderReviews(reviews) {
+    if (reviews.length === 0) {
+      return '<p class="empty-state">No reviews yet.</p>';
+    }
+
+}}
