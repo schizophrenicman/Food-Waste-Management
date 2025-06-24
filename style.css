@@ -835,3 +835,34 @@ body {
   border: 1px solid #fde68a;
 }
 
+.rating{
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.star {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #d1d5db;
+  transition: color 0.2s ease;
+}
+
+.star.active,
+.star:hover {
+  color: #fbbf24;
+}
+
+.review-form {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+}
+
+.review-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary-color);
+}
