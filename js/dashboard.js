@@ -99,5 +99,21 @@ class DashboardManager {
         foodName: donation.foodName,
         quantity: donation.quantity,
         pickupLocation: donation.pickupLocation
-      };    
-}}}
+      };   
+      
+      const savedClaim = this.storage.saveClaim(claim);
+
+      return {
+        success: true,
+        message: 'Donation claimed successfully! Contact the donor to arrange pickup.',
+        claim: savedClaim
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+}
