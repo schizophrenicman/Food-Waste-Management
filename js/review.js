@@ -197,3 +197,4 @@ class ReviewManager {
   }
 }
 
+window.ReviewManager = ReviewManager;
