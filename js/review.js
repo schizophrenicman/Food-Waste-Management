@@ -24,7 +24,7 @@ class ReviewManager {
         throw new Error('Rating must be between 1 and 5');
       }
      
-      //if donor has already reviewed or not
+    //if donor has already reviewed or not
       const existingReviews = this.storage.getReviews();
       const hasReviewed = existingReviews.some(review => 
         review.reviewerEmail === user.email && review.donorEmail === donorEmail
