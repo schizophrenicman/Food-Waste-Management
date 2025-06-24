@@ -430,3 +430,5 @@ class DashboardManager {
     `).join('');
   }
 }
+
+window.DashboardManager = DashboardManager;
