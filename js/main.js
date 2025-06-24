@@ -144,17 +144,19 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       });
     });
 
-        document.addEventListener('click', (e) => {
+    // Admin dashboard tabs
+    document.addEventListener('click', (e) => {
       if (e.target.classList.contains('tab-btn')) {
         const tab = e.target.dataset.tab;
         showAdminTab(tab);
         
-        
+        // Update active tab
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
       }
     });
-     // Close modals when clicking outside
+
+    // Close modals when clicking outside
     window.addEventListener('click', (e) => {
       if (e.target === loginModal) loginModal.style.display = 'none';
       if (e.target === registerModal) registerModal.style.display = 'none';
@@ -231,6 +233,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       phone: document.getElementById('register-phone').value,
       type: document.getElementById('donor-type').classList.contains('active') ? 'donor' : 'receiver'
     };
+
     // Handle document upload for receivers
     if (userData.type === 'receiver') {
       const fileInput = document.getElementById('verification-document');
@@ -342,6 +345,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         document.getElementById('add-donation-modal').style.display = 'block';
       });
     }
+
     // Add donation modal close
     const addDonationClose = document.getElementById('add-donation-close');
     if (addDonationClose) {
@@ -349,7 +353,8 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         document.getElementById('add-donation-modal').style.display = 'none';
       });
     }
-     // Add donation form
+
+    // Add donation form
     const addDonationForm = document.getElementById('add-donation-form');
     if (addDonationForm) {
       addDonationForm.addEventListener('submit', async (e) => {
@@ -379,12 +384,35 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
 
   function showAdminDashboard() {
     if (!auth.isAdminLoggedIn()) {
-      showAdminModal(); 
+      showAdminModal();
       return;
     }
 
     mainContent.style.display = 'none';
-    adminDashboard.style.display = 'block';   
+    adminDashboard.style.display = 'block';
 
-};
+    // Show verification tab by default
+    showAdminTab('verification');
+  }
+
+  function showAdminTab(tab) {
+    const adminContent = document.getElementById('admin-content');
+    
+    switch (tab) {
+      case 'verification':
+        adminContent.innerHTML = renderVerificationTab();
+        break;
+      case 'users':
+        adminContent.innerHTML = renderUsersTab();
+        break;
+      case 'donations':
+        adminContent.innerHTML = renderDonationsTab();
+        break;
+    }
+    
+    
+    
+    
+
+  };
 });
