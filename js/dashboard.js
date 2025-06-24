@@ -362,4 +362,71 @@ class DashboardManager {
     `).join('');
   }
 
+    renderAvailableDonations(donations) {
+    if (donations.length === 0) {
+      return '<p class="empty-state">No available donations at the moment. Check back later!</p>';
+    }
+
+    return donations.map(donation => `
+      <div class="food-item">
+        <div class="food-header">
+          <div class="food-title">${donation.foodName}</div>
+          <div class="food-status status-${donation.status}">Available</div>
+        </div>
+        <div class="food-details">
+          <p><strong>Quantity:</strong> ${donation.quantity}</p>
+          <p><strong>Location:</strong> ${donation.pickupLocation}</p>
+          ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
+        </div>
+        <div class="food-meta">
+          <span class="food-donor">By ${donation.donorName}</span>
+          <button class="btn btn-primary btn-small" onclick="claimDonation('${donation.id}')">
+            Claim Food
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderClaims(claims) {
+    if (claims.length === 0) {
+      return '<p class="empty-state">No claims yet.</p>';
+    }
+
+    return claims.map(claim => `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">${claim.foodName}</div>
+          <div class="card-date">${new Date(claim.claimedAt).toLocaleDateString()}</div>
+        </div>
+        <p><strong>Claimed by:</strong> ${claim.receiverName}</p>
+        <p><strong>Contact:</strong> ${claim.receiverPhone}</p>
+        <p><strong>Quantity:</strong> ${claim.quantity}</p>
+        <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+      </div>
+    `).join('');
+  }
+
+  renderUserClaims(claims) {
+    if (claims.length === 0) {
+      return '<p class="empty-state">No claims yet.</p>';
+    }
+
+    return claims.map(claim => `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">${claim.foodName}</div>
+          <div class="card-date">${new Date(claim.claimedAt).toLocaleDateString()}</div>
+        </div>
+        <p><strong>Donor:</strong> ${claim.donorName}</p>
+        <p><strong>Contact:</strong> ${claim.donorPhone}</p>
+        <p><strong>Quantity:</strong> ${claim.quantity}</p>
+        <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+        <button class="btn btn-secondary btn-small" onclick="showReviewModal('${claim.donorEmail}', '${claim.donorName}')">
+          Leave Review
+        </button>
+      </div>
+    `).join('');
+  }
 }
