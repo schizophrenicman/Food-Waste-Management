@@ -73,4 +73,24 @@ class StorageManager {
     return claims.filter(claim => claim.donorEmail === donorEmail);
   }
 
+  // Reviews management
+  saveReview(review) {
+    const reviews = this.getReviews();
+    review.id = Date.now().toString();
+    review.createdAt = new Date().toISOString();
+    reviews.push(review);
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+    return review;
+  }
+
+  getReviews() {
+    return JSON.parse(localStorage.getItem('reviews') || '[]');
+  }
+
+  getReviewsByDonor(donorEmail) {
+    const reviews = this.getReviews();
+    return reviews.filter(review => review.donorEmail === donorEmail);
+  }
+
+
 }
