@@ -92,5 +92,29 @@ class StorageManager {
     return reviews.filter(review => review.donorEmail === donorEmail);
   }
 
+  // Verification management
+  savePendingVerification(verification) {
+    const pending = this.getPendingVerifications();
+    verification.id = Date.now().toString();
+    verification.submittedAt = new Date().toISOString();
+    verification.status = 'pending';
+    pending.push(verification);
+    localStorage.setItem('pendingVerifications', JSON.stringify(pending));
+    return verification;
+  }
+
+  getPendingVerifications() {
+    return JSON.parse(localStorage.getItem('pendingVerifications') || '[]');
+  }
+
+  updateVerificationStatus(id, status, adminNotes = '') {
+    const pending = this.getPendingVerifications();
+    const verificationIndex = pending.findIndex(v => v.id === id);
+    if (verificationIndex !== -1) {
+      pending[verificationIndex].status = status;
+      pending[verificationIndex].adminNotes = adminNotes;
+      pending[verificationIndex].reviewedAt = new Date().toISOString();
+      localStorage.setItem('pendingVerifications', JSON.stringify(pending));
+
 
 }
