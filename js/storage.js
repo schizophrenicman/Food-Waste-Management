@@ -9,7 +9,7 @@ class StorageManager {
     if (!localStorage.getItem('admin')) {
       const adminData = {
         email: 'admin@gmail.com',
-        password: 'Admin@123', 
+        password: 'Admin@123', // Updated password as per user request
         name: 'System Administrator'
       };
       localStorage.setItem('admin', JSON.stringify(adminData));
@@ -23,6 +23,7 @@ class StorageManager {
       }
     });
   }
+
   // User management
   saveUser(user) {
     const users = this.getUsers();
@@ -49,6 +50,37 @@ class StorageManager {
     }
     return null;
   }
+
+  // Donations management
+  saveDonation(donation) {
+    const donations = this.getDonations();
+    donation.id = Date.now().toString();
+    donation.createdAt = new Date().toISOString();
+    donations.push(donation);
+    localStorage.setItem('donations', JSON.stringify(donations));
+    return donation;
+  }
+
+  getDonations() {
+    return JSON.parse(localStorage.getItem('donations') || '[]');
+  }
+
+  getDonationById(id) {
+    const donations = this.getDonations();
+    return donations.find(donation => donation.id === id);
+  }
+
+  updateDonation(id, updates) {
+    const donations = this.getDonations();
+    const donationIndex = donations.findIndex(donation => donation.id === id);
+    if (donationIndex !== -1) {
+      donations[donationIndex] = { ...donations[donationIndex], ...updates };
+      localStorage.setItem('donations', JSON.stringify(donations));
+      return donations[donationIndex];
+    }
+    return null;
+  }
+
   // Claims management
   saveClaim(claim) {
     const claims = this.getClaims();
@@ -115,7 +147,7 @@ class StorageManager {
       pending[verificationIndex].adminNotes = adminNotes;
       pending[verificationIndex].reviewedAt = new Date().toISOString();
       localStorage.setItem('pendingVerifications', JSON.stringify(pending));
-
+      
       // If approved, update user status
       if (status === 'approved') {
         const userEmail = pending[verificationIndex].userEmail;
@@ -146,6 +178,7 @@ class StorageManager {
       pendingVerifications: this.getPendingVerifications().filter(v => v.status === 'pending').length
     };
   }
+
   // Calculate top donor based on reviews
   getTopDonor() {
     const users = this.getUsers();
@@ -187,5 +220,6 @@ class StorageManager {
     this.initializeStorage();
   }
 }
-//export for other files
+
+// Export for use in other files
 window.StorageManager = StorageManager;

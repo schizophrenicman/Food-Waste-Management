@@ -1,21 +1,22 @@
+// Admin functionality for FoodShare platform
 class AdminManager {
   constructor(storage, auth) {
     this.storage = storage;
     this.auth = auth;
   }
 
-
+  // Get all pending verifications
   getPendingVerifications() {
     return this.storage.getPendingVerifications().filter(v => v.status === 'pending');
   }
 
-  
+  // Get all verifications (including processed ones)
   getAllVerifications() {
     return this.storage.getPendingVerifications();
   }
 
-  //Approve verisfication
-    async approveVerification(verificationId, adminNotes = '') {
+  // Approve verification
+  async approveVerification(verificationId, adminNotes = '') {
     try {
       const verification = this.storage.updateVerificationStatus(verificationId, 'approved', adminNotes);
       if (!verification) {
@@ -78,28 +79,30 @@ class AdminManager {
     return this.storage.getDonations();
   }
 
-  //Claims
+  // Get all claims
   getAllClaims() {
     return this.storage.getClaims();
   }
 
-  //Statistics
+  // Get system statistics
   getSystemStats() {
     const stats = this.storage.getStats();
     const donations = this.getAllDonations();
     const claims = this.getAllClaims();
     
+    // Calculate additional metrics
     const availableDonations = donations.filter(d => d.status === 'available').length;
     const claimedDonations = donations.filter(d => d.status === 'claimed').length;
-        return {
+    
+    return {
       ...stats,
       availableDonations,
       claimedDonations,
       claimRate: donations.length > 0 ? ((claimedDonations / donations.length) * 100).toFixed(1) : 0
     };
- }
+  }
 
-    //Delete user
+  // Delete user (admin function)
   async deleteUser(userEmail) {
     try {
       const users = this.storage.getUsers();
@@ -109,9 +112,11 @@ class AdminManager {
         throw new Error('User not found');
       }
 
+      // Remove user
       users.splice(userIndex, 1);
       localStorage.setItem('users', JSON.stringify(users));
 
+      // Remove related verifications
       const verifications = this.storage.getPendingVerifications();
       const updatedVerifications = verifications.filter(v => v.userEmail !== userEmail);
       localStorage.setItem('pendingVerifications', JSON.stringify(updatedVerifications));
@@ -127,10 +132,10 @@ class AdminManager {
         message: error.message
       };
     }
- }
+  }
 
-    //Toggle
-   async toggleUserVerification(userEmail) {
+  // Toggle user verification status
+  async toggleUserVerification(userEmail) {
     try {
       const user = this.storage.getUserByEmail(userEmail);
       if (!user) {
@@ -153,13 +158,14 @@ class AdminManager {
     }
   }
 
-    // Get verification details including document
-    getVerificationDetails(verificationId) {
-        const verifications = this.storage. getPendingVerifications();
-        return verifications.find(v => v.id === verificationId);
+  // Get verification details including document
+  getVerificationDetails(verificationId) {
+    const verifications = this.storage.getPendingVerifications();
+    return verifications.find(v => v.id === verificationId);
   }
 
-    searchUsers(query) {
+  // Search users
+  searchUsers(query) {
     const users = this.getAllUsers();
     if (!query) return users;
     
@@ -185,4 +191,5 @@ class AdminManager {
   }
 }
 
+// Export for use in other files
 window.AdminManager = AdminManager;

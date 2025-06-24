@@ -390,7 +390,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
 
     mainContent.style.display = 'none';
     adminDashboard.style.display = 'block';
-
+    
     // Show verification tab by default
     showAdminTab('verification');
   }
@@ -409,7 +409,8 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
         adminContent.innerHTML = renderDonationsTab();
         break;
     }
-     setupAdminEventListeners();
+    
+    setupAdminEventListeners();
   }
 
   function renderVerificationTab() {
@@ -555,7 +556,9 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       </div>
     `;
   }
+
   function setupAdminEventListeners() {
+    // Admin actions are handled by global functions
   }
 
   function updateImpactStats() {
@@ -566,6 +569,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
   }
 
   function showAlert(message, type) {
+    // Create alert element
     const alert = document.createElement('div');
     alert.className = `alert alert-${type}`;
     alert.textContent = message;
@@ -573,17 +577,18 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     // Add to page
     document.body.insertBefore(alert, document.body.firstChild);
     
-    // 5 seconds
+    // Remove after 5 seconds
     setTimeout(() => {
       alert.remove();
     }, 5000);
   }
 
+  // Global functions for admin actions
   window.approveVerification = async function(verificationId) {
     const result = await admin.approveVerification(verificationId);
     if (result.success) {
       showAlert(result.message, 'success');
-      showAdminTab('verification'); 
+      showAdminTab('verification'); // Refresh
     } else {
       showAlert(result.message, 'error');
     }
@@ -594,7 +599,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     const result = await admin.rejectVerification(verificationId, reason || '');
     if (result.success) {
       showAlert(result.message, 'warning');
-      showAdminTab('verification'); 
+      showAdminTab('verification'); // Refresh
     } else {
       showAlert(result.message, 'error');
     }
@@ -605,7 +610,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       const result = await admin.deleteUser(userEmail);
       if (result.success) {
         showAlert(result.message, 'success');
-        showAdminTab('users'); 
+        showAdminTab('users'); // Refresh
       } else {
         showAlert(result.message, 'error');
       }
@@ -616,7 +621,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     const result = await admin.toggleUserVerification(userEmail);
     if (result.success) {
       showAlert(result.message, 'success');
-      showAdminTab('users'); 
+      showAdminTab('users'); // Refresh
     } else {
       showAlert(result.message, 'error');
     }
@@ -627,7 +632,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
       const result = await dashboard.deleteDonation(donationId);
       if (result.success) {
         showAlert(result.message, 'success');
-        showUserDashboard(); 
+        showUserDashboard(); // Refresh
         updateImpactStats();
       } else {
         showAlert(result.message, 'error');
@@ -639,7 +644,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
     const result = await dashboard.claimDonation(donationId);
     if (result.success) {
       showAlert(result.message, 'success');
-      showUserDashboard(); 
+      showUserDashboard(); // Refresh
       updateImpactStats();
     } else {
       showAlert(result.message, 'error');
@@ -649,8 +654,5 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
   window.showReviewModal = function(donorEmail, donorName) {
     const reviewHTML = reviews.renderReviewForm(donorEmail, donorName);
     document.body.insertAdjacentHTML('beforeend', reviewHTML);
-    
-
-   
   };
 });
