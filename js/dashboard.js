@@ -82,10 +82,12 @@ class DashboardManager {
       if (donation.status !== 'available') {
         throw new Error('This donation is no longer available');
       }
-      } catch (error) {
-        return {
-          success: false,
-          message: error.message
-      };
+      
+      this.storage.updateDonation(donationId, { 
+        status: 'claimed',
+        claimedBy: user.email,
+        claimedAt: new Date().toISOString()
+      });
+      
     
 }}}
