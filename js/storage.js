@@ -49,4 +49,28 @@ class StorageManager {
     }
     return null;
   }
+  // Claims management
+  saveClaim(claim) {
+    const claims = this.getClaims();
+    claim.id = Date.now().toString();
+    claim.claimedAt = new Date().toISOString();
+    claims.push(claim);
+    localStorage.setItem('claims', JSON.stringify(claims));
+    return claim;
+  }
+
+  getClaims() {
+    return JSON.parse(localStorage.getItem('claims') || '[]');
+  }
+
+  getClaimsByUser(userEmail) {
+    const claims = this.getClaims();
+    return claims.filter(claim => claim.receiverEmail === userEmail);
+  }
+
+  getClaimsByDonor(donorEmail) {
+    const claims = this.getClaims();
+    return claims.filter(claim => claim.donorEmail === donorEmail);
+  }
+
 }
