@@ -193,7 +193,6 @@ class DashboardManager {
     return this.storage.getClaimsByDonor(user.email);
   }
 
-  // Generate dashboard content based on user type
   generateDashboardContent() {
     const user = this.auth.getCurrentUser();
     if (!user) return '';
@@ -279,6 +278,56 @@ class DashboardManager {
             </div>
             <button type="submit" class="btn btn-primary">Add Donation</button>
           </form>
+        </div>
+      </div>
+    `;
+  }
+
+  generateReceiverDashboard() {
+    const user = this.auth.getCurrentUser();
+    const claims = this.getUserClaims();
+    const availableDonations = this.getAvailableDonations();
+
+    if (!user.verified) {
+      return `
+        <div class="dashboard-welcome">
+          <h3>Welcome, ${user.name}! 👋</h3>
+          <div class="alert alert-warning">
+            <strong>Account Pending Verification</strong><br>
+            Your account is currently under review. You'll be able to claim food donations once verified by our admin team.
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="dashboard-welcome">
+        <h3>Welcome back, ${user.name}! 👋</h3>
+        <p>Find available food donations in your community.</p>
+      </div>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-number">${availableDonations.length}</div>
+          <div class="stat-label">Available Donations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${claims.length}</div>
+          <div class="stat-label">Your Claims</div>
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Available Food Donations</h4>
+        <div id="available-donations" class="food-grid">
+          ${this.renderAvailableDonations(availableDonations)}
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>Your Claims</h4>
+        <div id="user-claims">
+          ${this.renderUserClaims(claims)}
         </div>
       </div>
     `;
