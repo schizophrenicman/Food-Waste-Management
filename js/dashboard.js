@@ -88,6 +88,16 @@ class DashboardManager {
         claimedBy: user.email,
         claimedAt: new Date().toISOString()
       });
-      
     
+      const claim = {
+        donationId: donationId,
+        receiverEmail: user.email,
+        receiverName: user.name,
+        receiverPhone: user.phone,
+        donorEmail: donation.donorEmail,
+        donorName: donation.donorName,
+        foodName: donation.foodName,
+        quantity: donation.quantity,
+        pickupLocation: donation.pickupLocation
+      };    
 }}}
