@@ -186,4 +186,11 @@ class DashboardManager {
     }
   }
 
+  getDonorClaims() {
+    const user = this.auth.getCurrentUser();
+    if (!user || user.type !== 'donor') return [];
+    
+    return this.storage.getClaimsByDonor(user.email);
+  }
+
 }
