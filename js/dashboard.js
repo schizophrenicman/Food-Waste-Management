@@ -1,11 +1,11 @@
-//Dashboard functionality
+// Dashboard functionality for FoodShare platform
 class DashboardManager {
   constructor(storage, auth) {
     this.storage = storage;
     this.auth = auth;
   }
 
-  //Create donation
+  // Create donation
   async createDonation(donationData) {
     try {
       const user = this.auth.getCurrentUser();
@@ -45,10 +45,12 @@ class DashboardManager {
     }
   }
 
+  // Get available donations for receivers
   getAvailableDonations() {
     return this.storage.getDonations().filter(donation => donation.status === 'available');
   }
 
+  // Get user's donations (for donors)
   getUserDonations() {
     const user = this.auth.getCurrentUser();
     if (!user) return [];
@@ -56,6 +58,7 @@ class DashboardManager {
     return this.storage.getDonations().filter(donation => donation.donorEmail === user.email);
   }
 
+  // Get user's claims (for receivers)
   getUserClaims() {
     const user = this.auth.getCurrentUser();
     if (!user) return [];
@@ -63,6 +66,7 @@ class DashboardManager {
     return this.storage.getClaimsByUser(user.email);
   }
 
+  // Claim donation
   async claimDonation(donationId) {
     try {
       const user = this.auth.getCurrentUser();
@@ -82,13 +86,15 @@ class DashboardManager {
       if (donation.status !== 'available') {
         throw new Error('This donation is no longer available');
       }
-      
+
+      // Update donation status
       this.storage.updateDonation(donationId, { 
         status: 'claimed',
         claimedBy: user.email,
         claimedAt: new Date().toISOString()
       });
-    
+
+      // Create claim record
       const claim = {
         donationId: donationId,
         receiverEmail: user.email,
@@ -99,8 +105,8 @@ class DashboardManager {
         foodName: donation.foodName,
         quantity: donation.quantity,
         pickupLocation: donation.pickupLocation
-      };   
-      
+      };
+
       const savedClaim = this.storage.saveClaim(claim);
 
       return {
@@ -117,38 +123,40 @@ class DashboardManager {
     }
   }
 
-    async updateDonationStatus(donationId, status) {
-      try {
-        const user = this.auth.getCurrentUser();
-        if (!user) {
-          throw new Error('User not logged in');
-        }
+  // Update donation status (for donors)
+  async updateDonationStatus(donationId, status) {
+    try {
+      const user = this.auth.getCurrentUser();
+      if (!user) {
+        throw new Error('User not logged in');
+      }
 
-        const donation = this.storage.getDonationById(donationId);
-        if (!donation) {
-          throw new Error('Donation not found');
-        }
+      const donation = this.storage.getDonationById(donationId);
+      if (!donation) {
+        throw new Error('Donation not found');
+      }
 
-        if (donation.donorEmail !== user.email) {
-          throw new Error('You can only update your own donations');
-        }
+      if (donation.donorEmail !== user.email) {
+        throw new Error('You can only update your own donations');
+      }
 
-        const updatedDonation = this.storage.updateDonation(donationId, { status });
+      const updatedDonation = this.storage.updateDonation(donationId, { status });
 
-        return {
-          success: true,
-          message: 'Donation status updated successfully',
-          donation: updatedDonation
-        };
+      return {
+        success: true,
+        message: 'Donation status updated successfully',
+        donation: updatedDonation
+      };
 
-      } catch (error) {
-        return {
-          success: false,
-          message: error.message
-        };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
     }
   }
 
+  // Delete donation (for donors)
   async deleteDonation(donationId) {
     try {
       const user = this.auth.getCurrentUser();
@@ -186,6 +194,7 @@ class DashboardManager {
     }
   }
 
+  // Get donor's claimed donations (to see who claimed their food)
   getDonorClaims() {
     const user = this.auth.getCurrentUser();
     if (!user || user.type !== 'donor') return [];
@@ -193,6 +202,7 @@ class DashboardManager {
     return this.storage.getClaimsByDonor(user.email);
   }
 
+  // Generate dashboard content based on user type
   generateDashboardContent() {
     const user = this.auth.getCurrentUser();
     if (!user) return '';
@@ -362,7 +372,7 @@ class DashboardManager {
     `).join('');
   }
 
-    renderAvailableDonations(donations) {
+  renderAvailableDonations(donations) {
     if (donations.length === 0) {
       return '<p class="empty-state">No available donations at the moment. Check back later!</p>';
     }
@@ -431,4 +441,5 @@ class DashboardManager {
   }
 }
 
+// Export for use in other files
 window.DashboardManager = DashboardManager;

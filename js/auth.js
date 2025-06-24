@@ -1,4 +1,4 @@
-// Authentication system
+// Authentication system for FoodShare platform
 class AuthManager {
   constructor(storage) {
     this.storage = storage;
@@ -47,14 +47,17 @@ class AuthManager {
   // User registration
   async registerUser(userData) {
     try {
+      // Validate required fields
       if (!userData.name || !userData.email || !userData.password || !userData.phone || !userData.type) {
         throw new Error('All fields are required');
       }
 
+      // Validate email format
       if (!this.validateEmail(userData.email)) {
         throw new Error('Invalid email format');
       }
 
+      // Validate password
       const passwordValidation = this.validatePassword(userData.password);
       if (!passwordValidation.isValid) {
         throw new Error(passwordValidation.errors.join(', '));
@@ -71,16 +74,17 @@ class AuthManager {
         id: Date.now().toString(),
         name: userData.name,
         email: userData.email,
-        password: userData.password, // Not hashed for simplicity
+        password: userData.password, // In a real app, this would be hashed
         phone: userData.phone,
         type: userData.type,
-        verified: userData.type === 'donor',
+        verified: userData.type === 'donor', // Donors are automatically verified
         registeredAt: new Date().toISOString()
       };
 
+      // Save user
       this.storage.saveUser(user);
 
-      //verification request
+      // For receivers, create verification request
       if (userData.type === 'receiver' && userData.document) {
         const verification = {
           userEmail: userData.email,
@@ -172,33 +176,40 @@ class AuthManager {
     }
   }
 
+  // Logout
   logout() {
     this.currentUser = null;
     this.currentAdmin = null;
   }
 
+  // Check if user is logged in
   isUserLoggedIn() {
     return this.currentUser !== null;
   }
 
+  // Check if admin is logged in
   isAdminLoggedIn() {
     return this.currentAdmin !== null;
   }
 
+  // Get current user
   getCurrentUser() {
     return this.currentUser;
   }
 
+  // Get current admin
   getCurrentAdmin() {
     return this.currentAdmin;
   }
 
+  // Update user profile
   async updateUserProfile(updates) {
     try {
       if (!this.currentUser) {
         throw new Error('No user logged in');
       }
 
+      // If password is being updated, validate it
       if (updates.password) {
         const passwordValidation = this.validatePassword(updates.password);
         if (!passwordValidation.isValid) {
@@ -228,4 +239,5 @@ class AuthManager {
   }
 }
 
+// Export for use in other files
 window.AuthManager = AuthManager;
