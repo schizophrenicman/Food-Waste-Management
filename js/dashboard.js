@@ -13,7 +13,7 @@ class DashboardManager {
         throw new Error('Only donors can create donations');
       }
 
-      if (!donationData.foodName || !donationData.quantity || !donationData.pickupLocation) {
+      if (!donationData.foodName || !donationData.quantity || !donationData.pickupLocation || !donationData.pickupDateTime) {
         throw new Error('All fields are required');
       }
 
@@ -22,6 +22,7 @@ class DashboardManager {
         description: donationData.description || '',
         quantity: donationData.quantity,
         pickupLocation: donationData.pickupLocation,
+        pickupDateTime: donationData.pickupDateTime,
         expiryDate: donationData.expiryDate,
         donorEmail: user.email,
         donorName: user.name,
@@ -265,29 +266,33 @@ class DashboardManager {
         <div class="modal-content">
           <span class="close" id="add-donation-close">&times;</span>
           <h3>Add New Donation</h3>
-          <form id="add-donation-form">
-            <div class="form-group">
-              <label for="food-name">Food Name:</label>
-              <input type="text" id="food-name" required>
-            </div>
-            <div class="form-group">
-              <label for="food-description">Description:</label>
-              <textarea id="food-description" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="food-quantity">Quantity:</label>
-              <input type="text" id="food-quantity" placeholder="e.g., 5 portions, 2 bags" required>
-            </div>
-            <div class="form-group">
-              <label for="pickup-location">Pickup Location:</label>
-              <input type="text" id="pickup-location" required>
-            </div>
-            <div class="form-group">
-              <label for="expiry-date">Expiry Date (optional):</label>
-              <input type="date" id="expiry-date">
-            </div>
-            <button type="submit" class="btn btn-primary">Add Donation</button>
-          </form>
+      <form id="add-donation-form">
+        <div class="form-group">
+          <label for="food-name">Food Name:</label>
+          <input type="text" id="food-name" required>
+        </div>
+        <div class="form-group">
+          <label for="food-description">Description:</label>
+          <textarea id="food-description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="food-quantity">Quantity:</label>
+          <input type="text" id="food-quantity" placeholder="e.g., 5 portions, 2 bags" required>
+        </div>
+        <div class="form-group">
+          <label for="pickup-location">Pickup Location:</label>
+          <input type="text" id="pickup-location" required>
+        </div>
+        <div class="form-group">
+          <label for="pickup-datetime">Pickup Date & Time:</label>
+          <input type="datetime-local" id="pickup-datetime" required>
+        </div>
+        <div class="form-group">
+          <label for="expiry-date">Expiry Date (optional):</label>
+          <input type="date" id="expiry-date">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Donation</button>
+      </form>
         </div>
       </div>
     `;
@@ -358,6 +363,7 @@ class DashboardManager {
           <p><strong>Quantity:</strong> ${donation.quantity}</p>
           <p><strong>Location:</strong> ${donation.pickupLocation}</p>
           ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.pickupDateTime ? `<p><strong>Pickup Date & Time:</strong> ${new Date(donation.pickupDateTime).toLocaleString()}</p>` : ''}
           ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
         </div>
         <div class="food-meta">
@@ -387,6 +393,7 @@ class DashboardManager {
           <p><strong>Quantity:</strong> ${donation.quantity}</p>
           <p><strong>Location:</strong> ${donation.pickupLocation}</p>
           ${donation.description ? `<p><strong>Description:</strong> ${donation.description}</p>` : ''}
+          ${donation.pickupDateTime ? `<p><strong>Pickup Date & Time:</strong> ${new Date(donation.pickupDateTime).toLocaleString()}</p>` : ''}
           ${donation.expiryDate ? `<p><strong>Expires:</strong> ${new Date(donation.expiryDate).toLocaleDateString()}</p>` : ''}
         </div>
         <div class="food-meta">
@@ -414,6 +421,7 @@ class DashboardManager {
         <p><strong>Contact:</strong> ${claim.receiverPhone}</p>
         <p><strong>Quantity:</strong> ${claim.quantity}</p>
         <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+        ${claim.pickupDateTime ? `<p><strong>Pickup Date & Time:</strong> ${new Date(claim.pickupDateTime).toLocaleString()}</p>` : ''}
       </div>
     `).join('');
   }
@@ -433,6 +441,7 @@ class DashboardManager {
         <p><strong>Contact:</strong> ${claim.donorPhone}</p>
         <p><strong>Quantity:</strong> ${claim.quantity}</p>
         <p><strong>Pickup Location:</strong> ${claim.pickupLocation}</p>
+        ${claim.pickupDateTime ? `<p><strong>Pickup Date & Time:</strong> ${new Date(claim.pickupDateTime).toLocaleString()}</p>` : ''}
         <button class="btn btn-secondary btn-small" onclick="showReviewModal('${claim.donorEmail}', '${claim.donorName}')">
           Leave Review
         </button>

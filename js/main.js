@@ -376,6 +376,7 @@ document.getElementById('find-food-btn').addEventListener('click', () => {
           description: document.getElementById('food-description').value,
           quantity: document.getElementById('food-quantity').value,
           pickupLocation: document.getElementById('pickup-location').value,
+          pickupDateTime: document.getElementById('pickup-datetime').value,
           expiryDate: document.getElementById('expiry-date').value
         };
         
