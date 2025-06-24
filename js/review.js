@@ -33,6 +33,28 @@ class ReviewManager {
       if (hasReviewed) {
         throw new Error('You have already reviewed this donor');
       }
+      const review = {
+        donorEmail: donorEmail,
+        reviewerEmail: user.email,
+        reviewerName: user.name,
+        rating: parseInt(rating),
+        comment: comment.trim(),
+      };
+
+      const savedReview = this.storage.saveReview(review);
+
+      return {
+        success: true,
+        message: 'Review submitted successfully',
+        review: savedReview
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
     }
-}
+  }
+
 }
