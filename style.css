@@ -866,3 +866,23 @@ body {
   margin-bottom: 1rem;
   border-left: 4px solid var(--primary-color);
 }
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-author {
+  font-weight: 600;
+}
+
+.review-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.review-text {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
