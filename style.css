@@ -353,6 +353,18 @@ body {
   color: var(--text-primary);
   background: var(--background);
 }
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 .user-info {
   display: flex;
   align-items: center;
@@ -571,6 +583,19 @@ body {
   border-bottom: 3px solid var(--secondary-color);
   background-color: var(--primary-color);
   border-radius: 1rem 1rem 0 0; 
+}
+#dashboard-content,
+#admin-content {
+  padding: 1.5rem 3rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  text-align: center;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .card{
